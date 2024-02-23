@@ -11,6 +11,10 @@ import org.json.JSONTokener;
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
+    private Information info;
+    private boolean shouldFlyNext = true;
+    private int actionCount = 0;
+    private int echoCount = 0;
 
     @Override
     public void initialize(String s) {
@@ -26,15 +30,22 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
-        decision.put("action", "stop"); // we stop the exploration immediately
+        FindGround ground = new FindGround();
+        decision = ground.makeDecision();
         logger.info("** Decision: {}",decision.toString());
+        logger.info ("TESTING FLY"+ decision.toString());
         return decision.toString();
-    }
+    }   
+
 
     @Override
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
+        JsonTranslate translator = new JsonTranslate();
+        info = translator.translate(response);
+
         logger.info("** Response received:\n"+response.toString(2));
+
         Integer cost = response.getInt("cost");
         logger.info("The cost of the action was {}", cost);
         String status = response.getString("status");
