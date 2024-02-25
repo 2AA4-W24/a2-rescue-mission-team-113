@@ -4,10 +4,11 @@ import org.json.JSONObject;
 
 public interface CommandCentre {
     JSONObject echo(Direction direction );
-    JSONObject TurnRight();
-    JSONObject TurnLeft();
+    JSONObject TurnRight(Direction echoDirection);
+    JSONObject TurnLeft(Direction echoDirection);
     JSONObject fly();
     JSONObject scan();
+    JSONObject Turn(Direction direction);
 
 
 }
