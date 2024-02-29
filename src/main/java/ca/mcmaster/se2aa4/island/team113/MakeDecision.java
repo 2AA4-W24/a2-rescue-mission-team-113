@@ -10,7 +10,7 @@ public class MakeDecision {
     private Direction echoDirection ;
     private Direction right;
     private Direction left;
-    Commands command = new Commands();
+    CommandCentre command = new Commands();
     private boolean echoFront;
     private boolean echoRight;
     private boolean echoLeft;
@@ -22,6 +22,7 @@ public class MakeDecision {
     private int flyingToGround = 0;
     private boolean missioncomplete;
     private boolean checkRange;
+    private boolean firstrun;
 
     public MakeDecision(){
         this.currentDirection = Direction.E;
@@ -34,6 +35,7 @@ public class MakeDecision {
         this.echoedAll = false;
         this.facingGround = false;
         this.checkRange = false;
+        this.firstrun =true;
     }
 
 
@@ -129,6 +131,9 @@ public class MakeDecision {
         
         if (missioncomplete){
             decision.put("action", "stop") ;
+        }else if (firstrun == true){
+            decision = command.echo(echoDirection);
+            this.firstrun = false;
         }else {
             if (!foundGround){
                 decision = echoAll();

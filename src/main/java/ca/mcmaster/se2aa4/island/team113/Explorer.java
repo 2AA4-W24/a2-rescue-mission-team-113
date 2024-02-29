@@ -12,7 +12,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private MakeDecision decide = new MakeDecision();
-    private Commands command = new Commands();
     private Information info;
     private boolean shouldFlyNext = true;
     private int actionCount = 0;
@@ -40,16 +39,7 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
-        
-        if (runs ==0){
-            decision = command.echo(Direction.S);
-            this.runs++;this.
-            logger.info("FIRST RUN");
-            logger.info("The runs is: {}", this.runs);
-        }else{
-            decision = decide.makeDecision();
-        }
-        
+        decision = decide.makeDecision();
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }   
@@ -59,7 +49,6 @@ public class Explorer implements IExplorerRaid {
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         JsonTranslate translator = new JsonTranslate();
-       
         //info = translator.translate(response);
         logger.info("** Response received:\n"+response.toString(2));
         Integer cost = response.getInt("cost");
