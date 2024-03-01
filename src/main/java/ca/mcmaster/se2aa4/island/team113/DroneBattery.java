@@ -1,17 +1,17 @@
 package ca.mcmaster.se2aa4.island.team113;
 
 public class DroneBattery {
-    private int juice;
+    private Integer juice;
 
-    public DroneBattery(int juice) {
+    public DroneBattery(Integer juice) {
         this.juice = juice;
     }
 
-    public int getJuice(){
+    public Integer getJuice(){
         return juice;
     }
 
-    public void loseJuice(int used){
+    public void loseJuice(Integer used){
         juice = juice - used;
     }
 
