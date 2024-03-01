@@ -12,11 +12,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private MakeDecision decide = new MakeDecision();
-    private Information info;
-    private boolean shouldFlyNext = true;
-    private int actionCount = 0;
-    private int echoCount = 0;
-    Direction currentDirection;
     public int runs =0;
 
 
@@ -29,7 +24,7 @@ public class Explorer implements IExplorerRaid {
        
         //info.put("heading", currentDirection.directionToString());
         String direction = info.getString("heading");
-        currentDirection = Direction.stringToDirection(direction);
+        Direction currentDirection = Direction.stringToDirection(direction);
         logger.info("ENUM INITIALA : {}", currentDirection.directionToString());
         Integer batteryLevel = info.getInt("budget");
         logger.info("The drone is facing {}", direction);
@@ -57,7 +52,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-        decide.resultCheck(extraInfo);
+        decide.resultCheck(response);
     }
 
     @Override

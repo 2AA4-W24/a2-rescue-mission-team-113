@@ -17,12 +17,12 @@ public class MakeDecision {
     private boolean foundGround;
     private boolean echoedAll;
     private Integer range;
-    private boolean flyGround;
     private boolean facingGround;
     private int flyingToGround = 0;
     private boolean missioncomplete;
     private boolean checkRange;
     private boolean firstrun;
+    DroneBattery battery = new DroneBattery(7000);
 
     public MakeDecision(){
         this.currentDirection = Direction.E;
@@ -38,29 +38,28 @@ public class MakeDecision {
         this.firstrun =true;
     }
 
-
-
-
     public Direction getcurrentDirection(){
         return currentDirection;
     }
 
-    
 
-    public void resultCheck(JSONObject extras){
-        //only update range while your still looking for ground, so the latest value will be the range of ground
-        if (!echoedAll && checkRange){
-            logger.info("THE RANGE IS: {}", range);
-            range=extras.getInt("range"); //THIS IS THE PROBLEM
-            logger.info("THE RANGE IS SECOND: {}", range);
+    public void resultCheck(JSONObject response){
+        Integer cost = response.getInt("cost");
+        battery.loseJuice(cost);
+        logger.info("BATTERY CHECK: {}", battery.getJuice());
+        JSONObject extras = response.getJSONObject("extras");
+
+        if (extras.has("range")){
+            range = extras.getInt("range");
+            logger.info("RANGE : {}", range); 
             String found = extras.getString("found");
             logger.info("FOUND VALUE: {}", found);
+
             if (found.equals("GROUND")){
                 foundGround=true;
                 echoedAll = true;
             }
         }
-        
         
     }
     private JSONObject echoAll(){
@@ -129,7 +128,7 @@ public class MakeDecision {
     public JSONObject makeDecision(){
         JSONObject decision = new JSONObject();
         
-        if (missioncomplete){
+        if (missioncomplete || battery.lowcheck()){
             decision.put("action", "stop") ;
         }else if (firstrun == true){
             decision = command.echo(echoDirection);
