@@ -16,7 +16,7 @@ public class DroneBattery {
     }
 
     public boolean lowcheck(){
-        return juice < 10;
+        return juice < 27;
     }
 
     

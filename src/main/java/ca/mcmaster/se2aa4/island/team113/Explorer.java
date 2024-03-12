@@ -11,8 +11,9 @@ import org.json.JSONTokener;
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
-    private MakeDecision decide = new MakeDecision();
+    private MakeDecision decide;
     public int runs =0;
+    //Drone drone;
 
 
     @Override
@@ -25,8 +26,9 @@ public class Explorer implements IExplorerRaid {
         //info.put("heading", currentDirection.directionToString());
         String direction = info.getString("heading");
         Direction currentDirection = Direction.stringToDirection(direction);
-        logger.info("ENUM INITIALA : {}", currentDirection.directionToString());
+        logger.info("ENUM INITIALIZE : {}", currentDirection.directionToString());
         Integer batteryLevel = info.getInt("budget");
+        decide = new MakeDecision(batteryLevel, direction);
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
     }

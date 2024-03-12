@@ -15,32 +15,27 @@ public class MakeDecision {
     private boolean echoRight;
     private boolean echoLeft;
     private boolean foundGround;
-    private boolean echoedAll;
     private Integer range;
     private boolean facingGround;
     private int flyingToGround = 0;
     private boolean missioncomplete;
-    private boolean checkRange;
     private boolean firstrun;
-    DroneBattery battery = new DroneBattery(7000);
+    Integer charge;
+    DroneBattery battery;
 
-    public MakeDecision(){
-        this.currentDirection = Direction.E;
+    public MakeDecision(Integer battery, String direction){
+        this.currentDirection = Direction.stringToDirection(direction);
         this.echoDirection = Direction.E;
         this.echoFront = false;
         this.echoRight = false;
         this.echoLeft = false;
         this.missioncomplete = false;
         this.foundGround = false;
-        this.echoedAll = false;
         this.facingGround = false;
-        this.checkRange = false;
         this.firstrun =true;
+        this.battery = new DroneBattery(battery);
     }
 
-    public Direction getcurrentDirection(){
-        return currentDirection;
-    }
 
 
     public void resultCheck(JSONObject response){
@@ -57,7 +52,6 @@ public class MakeDecision {
 
             if (found.equals("GROUND")){
                 foundGround=true;
-                echoedAll = true;
             }
         }
         
@@ -70,25 +64,21 @@ public class MakeDecision {
         if (!echoFront && !echoRight && !echoLeft){
             decision = command.echo(this.echoDirection);
             echoFront = true;
-            checkRange = true;
             logger.info("ECHO FRONT");
         }else if (echoFront && !echoRight && !echoLeft){
             echoDirection = right;
             logger.info("ECHO DIRECTION {}", echoDirection.directionToString());
             decision = command.echo(echoDirection);
             echoRight = true;
-            checkRange = true;
             logger.info("FIRST RIGHT");
         } else if (echoFront && echoRight && !echoLeft){
             echoDirection = left;
             logger.info("ECHO DIRECTION {}", echoDirection.directionToString());
             decision = command.echo(echoDirection);
             echoLeft = true;
-            checkRange = true;
             logger.info("FIRST LEFT");
         } else if (echoFront && echoRight && echoLeft){
             logger.info("FLYING");
-            checkRange = false;
             decision = command.fly();
             echoFront = false;
             echoRight = false;
