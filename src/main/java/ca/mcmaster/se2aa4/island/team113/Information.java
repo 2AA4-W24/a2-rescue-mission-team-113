@@ -3,10 +3,10 @@ package ca.mcmaster.se2aa4.island.team113;
 import org.json.JSONObject;
 
 public class Information {
-    private int cost;
+    private Integer cost;
     private JSONObject extras;
 
-    public Information(int cost, JSONObject extras) {
+    public Information(Integer cost, JSONObject extras) {
         this.cost = cost;
         this.extras = extras;
     }
@@ -15,7 +15,7 @@ public class Information {
         return extras;
     }
 
-    public int getCost() {
+    public Integer getCost() {
         return cost;
     }
 }

@@ -13,7 +13,9 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
     private MakeDecision decide;
     public int runs =0;
-    //Drone drone;
+    public Information information;
+    private JsonTranslate translator;
+    
 
 
     @Override
@@ -22,13 +24,14 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initializing the Exploration Command Center");
         JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
         logger.info("** Initialization info:\n {}",info.toString(2));
-       
-        //info.put("heading", currentDirection.directionToString());
+        
         String direction = info.getString("heading");
         Direction currentDirection = Direction.stringToDirection(direction);
         logger.info("ENUM INITIALIZE : {}", currentDirection.directionToString());
         Integer batteryLevel = info.getInt("budget");
+        
         decide = new MakeDecision(batteryLevel, direction);
+        
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
     }
@@ -54,7 +57,8 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-        decide.resultCheck(response);
+        information = translator.translate(response);
+        decide.resultCheck(information);
     }
 
     @Override
