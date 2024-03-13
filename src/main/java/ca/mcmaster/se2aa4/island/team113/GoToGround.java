@@ -10,7 +10,7 @@ public class GoToGround implements DecisionMaker{
     private Direction echoDirection ;
     private Direction right;
     private Direction left;
-    CommandCentre command = new Commands();
+    Commands command = new Commands();
     private boolean echoFront;
     private boolean echoRight;
     private boolean echoLeft;
@@ -20,7 +20,6 @@ public class GoToGround implements DecisionMaker{
     private int flyingToGround = 0;
     private boolean onGround;
     private boolean firstrun;
-    private Information info;
 
     public GoToGround(Direction direction){
         this.currentDirection = direction;

@@ -4,15 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
-public class Commands implements CommandCentre{
+public class Commands {
     private final Logger logger = LogManager.getLogger();
 
-    //private Direction echoDirection;
-
-    //public Commands(Direction echoDirection){
-    //   this.echoDirection = echoDirection;
-    //}
-    @Override
+    
     public JSONObject echo(Direction direction) {
         JSONObject decision = new JSONObject();
         
@@ -21,7 +16,7 @@ public class Commands implements CommandCentre{
         return decision;
     }
 
-    @Override
+    
     public JSONObject TurnRight(Direction direction) {
         JSONObject decision = new JSONObject();
         String right = direction.goRight().directionToString();
@@ -30,7 +25,7 @@ public class Commands implements CommandCentre{
         return decision;
     }
 
-    @Override
+    
     public JSONObject TurnLeft(Direction direction) {
         JSONObject decision = new JSONObject();
         String left = direction.goLeft().directionToString();
@@ -38,7 +33,7 @@ public class Commands implements CommandCentre{
         decision.put("parameters", new JSONObject().put("direction", left));
         return decision;
     }
-    @Override
+    
     public JSONObject Turn(Direction direction) {
         JSONObject decision = new JSONObject();
         String turn = direction.directionToString();
@@ -48,14 +43,14 @@ public class Commands implements CommandCentre{
         return decision;
     }
 
-    @Override
+    
     public JSONObject fly() {
         JSONObject decision = new JSONObject();
         decision.put("action", "fly");
         return decision;
     }
 
-    @Override
+    
     public JSONObject scan() {
         JSONObject decision = new JSONObject();
         decision.put("action", "scan");

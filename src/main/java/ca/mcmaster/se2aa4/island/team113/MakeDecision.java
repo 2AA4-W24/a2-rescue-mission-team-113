@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class MakeDecision {
     private final Logger logger = LogManager.getLogger();
     private Direction currentDirection ;
-    CommandCentre command = new Commands();
+    Commands command = new Commands();
     Integer charge;
     private DroneBattery battery;
     private Information info;
@@ -20,6 +20,7 @@ public class MakeDecision {
         this.currentDirection = Direction.stringToDirection(direction);
         this.battery = new DroneBattery(battery);
     }
+
     public void resultCheck(Information info){ 
         Integer cost = info.getCost();
         battery.loseJuice(cost);
@@ -35,6 +36,7 @@ public class MakeDecision {
             decision.put("action", "stop") ;
         }else if(ground.getonGround()){
             //decision = islandscan
+            decision.put("action", "stop") ;
 
         }else if (!ground.getonGround()){
              decision = ground.makeDecision();
