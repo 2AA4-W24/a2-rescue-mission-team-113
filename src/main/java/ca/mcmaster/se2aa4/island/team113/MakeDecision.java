@@ -13,12 +13,26 @@ public class MakeDecision {
     Integer charge;
     private DroneBattery battery;
     private Information info;
-    GoToGround ground = new GoToGround(currentDirection);
+    GoToGround ground;
+    ScanIsland islandScanner;
+    private boolean initialScanner;
 
 
     public MakeDecision(Integer battery, String direction){
         this.currentDirection = Direction.stringToDirection(direction);
         this.battery = new DroneBattery(battery);
+        this.initialScanner= false;
+        ground = new GoToGround(currentDirection);
+        
+        
+    }
+
+    private void initializeScanner(){
+        if (!initialScanner){
+            islandScanner = new ScanIsland(ground.getcurrentDirection());
+            initialScanner = true;
+
+        }
     }
 
     public void resultCheck(Information info){ 
@@ -26,6 +40,15 @@ public class MakeDecision {
         battery.loseJuice(cost);
         logger.info("BATTERY CHECK: {}", battery.getJuice());
         ground.resultCheck(info);
+        if (ground.getonGround()){
+            initializeScanner();
+            currentDirection = ground.getcurrentDirection();
+            logger.info("CURRENT DIRECTION 1 {}", currentDirection.directionToString());
+            
+            islandScanner.resultCheck(info);
+
+        }
+        
         
     }
     
@@ -35,8 +58,8 @@ public class MakeDecision {
         if (battery.lowcheck()){
             decision.put("action", "stop") ;
         }else if(ground.getonGround()){
-            //decision = islandscan
-            decision.put("action", "stop") ;
+            logger.info("CURRENT DIRECTION 2 {}", currentDirection.directionToString());
+            decision = islandScanner.makeDecision();
 
         }else if (!ground.getonGround()){
              decision = ground.makeDecision();

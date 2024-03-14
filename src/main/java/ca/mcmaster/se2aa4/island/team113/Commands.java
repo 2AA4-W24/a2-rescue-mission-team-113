@@ -20,7 +20,7 @@ public class Commands {
     public JSONObject TurnRight(Direction direction) {
         JSONObject decision = new JSONObject();
         String right = direction.goRight().directionToString();
-        decision.put("action", "turn");
+        decision.put("action", "heading");
         decision.put("parameters", new JSONObject().put("direction", right));
         return decision;
     }
@@ -29,7 +29,7 @@ public class Commands {
     public JSONObject TurnLeft(Direction direction) {
         JSONObject decision = new JSONObject();
         String left = direction.goLeft().directionToString();
-        decision.put("action", "turn");
+        decision.put("action", "heading");
         decision.put("parameters", new JSONObject().put("direction", left));
         return decision;
     }

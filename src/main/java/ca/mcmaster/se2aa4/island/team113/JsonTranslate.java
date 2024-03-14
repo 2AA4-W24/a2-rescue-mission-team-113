@@ -15,9 +15,7 @@ public class JsonTranslate {
 
     private  Integer getCost(JSONObject response){
 
-        logger.info("CHECKPINT TRANSLATE");
         Integer cost = response.getInt("cost");
-        logger.info("CHECKPINT TRANSLATE 2");
 
         return cost;
         
