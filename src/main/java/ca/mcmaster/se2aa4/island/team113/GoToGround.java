@@ -91,12 +91,18 @@ public class GoToGround implements DecisionMaker{
 
     private JSONObject faceGround(){
         JSONObject decision = new JSONObject();
-        logger.info("ECHO DIRECTION: {}", this.echoDirection);
-        this.currentDirection= this.echoDirection;
-        logger.info("ECHO DIRECTION: {}", this.currentDirection);
-        decision = command.Turn(currentDirection); 
-        facingGround = true;
+        if (echoDirection == currentDirection){
+            decision = command.scan();
+            facingGround=true;
+        }else{
+            logger.info("ECHO DIRECTION: {}", this.echoDirection);
+            this.currentDirection= this.echoDirection;
+            logger.info("ECHO DIRECTION: {}", this.currentDirection);
+            decision = command.Turn(currentDirection); 
+            facingGround = true;
 
+        }
+        
         return decision;
     }
 

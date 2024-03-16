@@ -1,42 +1,42 @@
 package ca.mcmaster.se2aa4.island.team113;
 
-public class Position {
-    private double x;
-    private double y;
+public class Coordinate {
+    private int x;
+    private int y;
 
-    public Position(double x, double y) {
+    public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
-    public Position move(Direction direction) {
-        double new_x = x;
-        double new_y = y;
+    public Coordinate move(Direction direction) {
+        int new_x = x;
+        int new_y = y;
 
         switch(direction) {
             case N:
-                new_x += 1.0;
+                new_y += 1;
                 break;
             case E:
-                new_y += 1.0;
+                new_x += 1;
                 break;
             case S:
-                new_x -= 1.0;
+                new_y -= 1;
                 break;
             case W:
-                new_y -= 1.0;
+                new_x -= 1;
                 break;
             default:
                 throw new IllegalStateException("Unknown direction: " + direction);
         }
-        return new Position(new_x, new_y);
+        return new Coordinate(new_x, new_y);
     }
 }

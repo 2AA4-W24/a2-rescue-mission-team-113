@@ -11,11 +11,8 @@ public class ScanIsland implements DecisionMaker{
     Commands command = new Commands();
     private boolean fly;
     private boolean scan;
-    private boolean turn1;
-    private boolean turn2;
     private boolean onOcean;
     private Direction currentDirection;
-    private boolean goingUp;
     private boolean uTurned;
     private boolean echofront;
     private boolean foundGround;
@@ -34,11 +31,8 @@ public class ScanIsland implements DecisionMaker{
     public ScanIsland(Direction currentDirection, Direction initialDirection){
         this.fly = false;
         this.scan = false;
-        this.turn1 = false;
-        this.turn2 = false;
         this.onOcean = false;
         this.currentDirection = currentDirection;
-        this.goingUp = false;
         this.uTurned=false;
         this.foundGround=false;
         this.echofront = false;
@@ -108,16 +102,6 @@ public class ScanIsland implements DecisionMaker{
         return decision;
     }
 
-    private JSONObject echoAll(){
-        if (!echofront){
-            decision = command.echo(currentDirection);
-            echofront = true;
-        }
-
-
-
-        return null;
-    }
     private JSONObject  fourPointTurn(){
 
         switch (move){
@@ -197,7 +181,6 @@ public class ScanIsland implements DecisionMaker{
                 logger.info("MOVE 8");
                 decision = command.scan();
                 checkEdge=false;
-                //goingUp=!goingUp;
                 move =0;
                 edgeCounter++;
     
@@ -290,11 +273,9 @@ public class ScanIsland implements DecisionMaker{
                         decision = command.echo(currentDirection);
                     }
                 }
-            
-            }    
-            
-        }
-        
+            }     
+        } 
+        logger.info("CUREENT DIRECTION {}", currentDirection.directionToString());
         return decision;
     }
   
