@@ -33,6 +33,16 @@ public enum Direction {
         }
     }
 
+    public Direction oppositeDirection( ){
+        switch(this){
+            case N: return S;
+            case E: return W;
+            case S: return N;
+            case W: return E;
+            default: throw new IllegalStateException("Unknown direction: " + this);
+        }
+    }
+
     public static Direction stringToDirection(String direction) {
         switch (direction) {
             case "N": return N;
@@ -42,6 +52,8 @@ public enum Direction {
             default:    throw new IllegalArgumentException("Unknown direction: " + direction);
         }
     }
+
+    
 
 
 }

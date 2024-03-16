@@ -20,9 +20,16 @@ public class ScanIsland implements DecisionMaker{
     private boolean echofront;
     private boolean foundGround;
     private boolean checkEdge;
+    private final Direction initialDirection;
+    private int move;
+    private Direction stoppingDirection;
+    private int turnCount;
+    private int edgeCounter;
+    private boolean test;
 
 
-    public ScanIsland(Direction currentDirection){
+
+    public ScanIsland(Direction currentDirection, Direction initialDirection){
         this.fly = false;
         this.scan = false;
         this.turn1 = false;
@@ -34,6 +41,11 @@ public class ScanIsland implements DecisionMaker{
         this.foundGround=false;
         this.echofront = false;
         this.checkEdge= false;
+        this.initialDirection= initialDirection;
+        this.move = 0;
+        this.turnCount =0;
+        this.edgeCounter = 0;
+        this.test = false;
 
     }
 
@@ -95,6 +107,95 @@ public class ScanIsland implements DecisionMaker{
 
         return null;
     }
+    private JSONObject  fourPointTurn(){
+
+        switch (move){
+            case 0:
+            logger.info("MOVE 0");
+                if (!test){
+                    decision = command.Turn(initialDirection);
+                    test= true;
+                    
+                }else{
+                    decision = command.scan();
+                    move++;
+                    test = false;
+
+                }
+                
+                
+                break;
+            case 1:
+                logger.info("MOVE 1");
+                if (!test){
+                    decision = command.Turn(stoppingDirection);
+                    test = true;
+                }else{
+                    move++;
+                    decision = command.scan();
+                    test=false;
+
+                }
+                
+                
+                break;
+            case 2:
+                logger.info("MOVE 2");
+                if (!test){
+                    decision = command.Turn(initialDirection.oppositeDirection());
+                    test = true;
+
+                }else{
+                    move++;
+                    decision = command.scan();
+                    test = false;
+                }
+                
+                
+                break;
+            case 3:
+                logger.info("MOVE 3");
+                decision = command.fly();
+                move++;
+                break;
+            case 4:
+                logger.info("MOVE 4");
+                decision = command.Turn(stoppingDirection.oppositeDirection());
+                move ++;
+                break;
+            case 5:
+                logger.info("MOVE 5");
+                if (turnCount<3){
+                    decision = command.fly();
+                    turnCount++;
+                }else{
+                    move++;
+                }
+                break;
+            case 6:
+                logger.info("MOVE 6");
+                decision = command.Turn(initialDirection.oppositeDirection());
+                move++;
+                break;
+            case 7:
+                logger.info("MOVE 7");
+                decision = command.Turn(stoppingDirection);
+                move++;
+                break;
+            case 8:
+                logger.info("MOVE 8");
+                decision = command.scan();
+                checkEdge=false;
+                goingUp=!goingUp;
+                move =0;
+                edgeCounter++;
+    
+                break;
+
+        }
+
+        return decision;
+    }
 
     
     public void resultCheck(Information info) {
@@ -133,8 +234,18 @@ public class ScanIsland implements DecisionMaker{
         if (checkEdge){
             logger.info("CHECKING EDGE");
             if (!foundGround){
-                decision.put("action", "stop");
+                logger.info("NO GROUND FOUND");
+                if (edgeCounter == 0){
+                    logger.info("EDGE COUNT 0 : {}", edgeCounter);
+                    stoppingDirection=currentDirection;
+                    decision= fourPointTurn();
+                } else{
+                    logger.info("EDGE COUNT not 0 : {}", edgeCounter);
+                    decision.put("action", "stop");
+                }
+
             }else{
+                logger.info("GROUND FOUND");
                 checkEdge=false;
             }
 
@@ -167,15 +278,13 @@ public class ScanIsland implements DecisionMaker{
                         checkEdge=true;
                         decision = command.echo(currentDirection);
                     }
-
                 }
-            }
             
+            }    
             
         }
         
         return decision;
     }
-    
-    
+  
 }

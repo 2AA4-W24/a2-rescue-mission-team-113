@@ -16,20 +16,21 @@ public class MakeDecision {
     GoToGround ground;
     ScanIsland islandScanner;
     private boolean initialScanner;
+    private Direction initialDirection;
 
 
     public MakeDecision(Integer battery, String direction){
-        this.currentDirection = Direction.stringToDirection(direction);
+        this.initialDirection = Direction.stringToDirection(direction);
         this.battery = new DroneBattery(battery);
         this.initialScanner= false;
-        ground = new GoToGround(currentDirection);
+        ground = new GoToGround(initialDirection);
         
         
     }
 
     private void initializeScanner(){
         if (!initialScanner){
-            islandScanner = new ScanIsland(ground.getcurrentDirection());
+            islandScanner = new ScanIsland(ground.getcurrentDirection(), initialDirection);
             initialScanner = true;
 
         }
