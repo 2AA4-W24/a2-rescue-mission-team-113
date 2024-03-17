@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team113;
 
+import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
@@ -19,6 +21,10 @@ public class MakeDecision {
     private Direction mapDirection;
     private MapOfPoints map;
     private Coordinate position;
+    private ArrayList<String> allCreeks;
+    private double distance;
+    private double newDistance;
+    private String closestCreek;
 
 
     public MakeDecision(Integer battery, String direction){
@@ -29,6 +35,9 @@ public class MakeDecision {
         this.map = new MapOfPoints();
         this.position = new Coordinate(0,0);
         ground = new GoToGround(initialDirection);
+        this.allCreeks = new ArrayList<>();
+        this.distance = Double.POSITIVE_INFINITY;
+        this.closestCreek = "";
         
         
     }
@@ -40,22 +49,24 @@ public class MakeDecision {
 
         }
     }
-    private void posiitonTracker(JSONObject decision){
+    private void positionTracker(JSONObject decision){
         if(decision.similar(command.TurnLeft(mapDirection))){
             logger.info("GOING LEFT");
             logger.info("{}",command.TurnLeft(mapDirection).toString(2));
+            position = position.turnLeft(mapDirection);
             mapDirection = mapDirection.goLeft();
 
         } else if (decision.similar(command.TurnRight(mapDirection))){
             logger.info("GOING RIGHT");
             logger.info("{}",command.TurnRight(mapDirection).toString(2));
+            position = position.turnRight(mapDirection);
             mapDirection = mapDirection.goRight();
 
         }else if (decision.similar(command.fly())){
             logger.info("GOING FORWARD");
             logger.info("MAP DIRECTION {}", mapDirection.directionToString());
             logger.info("{}",command.fly().toString(2));
-            position = position.move(mapDirection);
+            position = position.forward(mapDirection);
         }
         logger.info(" X COORDINATE {}", position.getX());
         logger.info(" Y COORDINATE {}", position.getY());
@@ -69,6 +80,7 @@ public class MakeDecision {
             if (creeks.length() > 0){
                 for (int i=0; i<creeks.length(); i++){
                     map.addPointOfInterest(creeks.optString(i), position.getX(), position.getY());
+                    allCreeks.add(creeks.optString(i));
                 }
             }
         }
@@ -81,7 +93,23 @@ public class MakeDecision {
             }
         }
 
-
+    }
+    private String findClosestCreek(){
+        logger.info("SITE X COORDINATE {}", map.getPointOfInterest("site").getX());
+        logger.info("SITE Y COORDINATE {}", map.getPointOfInterest("site").getY());
+        for (int i =0; i< allCreeks.size(); i++){
+            newDistance = map.calculateDistance("site", allCreeks.get(i));
+            logger.info("CREEK ID: {}", allCreeks.get(i));
+            logger.info("DISTENCE FROM SITE {}", newDistance);
+            logger.info("CREEK X COORDINATE {}", map.getPointOfInterest(allCreeks.get(i)).getX());
+            logger.info("CREEK Y COORDINATE {}", map.getPointOfInterest(allCreeks.get(i)).getY());
+            if (newDistance < distance){
+                distance = newDistance;
+                closestCreek = allCreeks.get(i);
+            }
+        }
+        return closestCreek;
+        
     }
 
     public void resultCheck(Information info){ 
@@ -115,7 +143,11 @@ public class MakeDecision {
         }
         logger.info("BEGIN MAP");
         logger.info("{}",decision.toString(2));
-        posiitonTracker(decision);
+        positionTracker(decision);
+
+        if(decision.getString("action").equals("stop")){
+            logger.info("THE CLOSEST CREEK IS {}", findClosestCreek());
+        }
        
         return decision;
     }

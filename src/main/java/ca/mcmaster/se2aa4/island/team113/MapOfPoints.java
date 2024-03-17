@@ -10,7 +10,7 @@ public class MapOfPoints {
         pointsOfInterest = new HashMap<>();
     }
 
-    public void addPointOfInterest(String poi, int x, int y) {
+    public void addPointOfInterest(String poi, double x, double y) {
         pointsOfInterest.put(poi, new Coordinate(x, y));
     }
 
@@ -26,8 +26,8 @@ public class MapOfPoints {
             throw new IllegalArgumentException("One or both points not found in map");
         }
 
-        int x = emergency_site_pos.getX() - creek_pos.getX();
-        int y = emergency_site_pos.getY() - creek_pos.getY();
+        double x = emergency_site_pos.getX() - creek_pos.getX();
+        double y = emergency_site_pos.getY() - creek_pos.getY();
 
         return Math.sqrt(x*x + y*y);
     }
