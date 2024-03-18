@@ -11,7 +11,7 @@ import org.json.JSONTokener;
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
-    private MakeDecision decide;
+    private Drone drone;
     public int runs =0;
     public Information information;
     private JsonTranslate translator;
@@ -30,7 +30,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("ENUM INITIALIZE : {}", currentDirection.directionToString());
         Integer batteryLevel = info.getInt("budget");
         
-        decide = new MakeDecision(batteryLevel, direction);
+        drone = new Drone(batteryLevel, direction);
         
         logger.info("The drone is facing {}", direction);
         logger.info("Battery level is {}", batteryLevel);
@@ -39,7 +39,7 @@ public class Explorer implements IExplorerRaid {
     @Override
     public String takeDecision() {
         JSONObject decision = new JSONObject();
-        decision = decide.makeDecision();
+        decision = drone.makeDecision();
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }   
@@ -58,7 +58,7 @@ public class Explorer implements IExplorerRaid {
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
         information = translator.translate(response);
-        decide.resultCheck(information);
+        drone.resultCheck(information);
     }
 
     @Override

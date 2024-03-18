@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class MakeDecision {
+public class Drone {
     private final Logger logger = LogManager.getLogger();
     private Direction currentDirection ;
     Commands command = new Commands();
@@ -27,7 +27,7 @@ public class MakeDecision {
     private String closestCreek;
 
 
-    public MakeDecision(Integer battery, String direction){
+    public Drone(Integer battery, String direction){
         this.initialDirection = Direction.stringToDirection(direction);
         this.battery = new DroneBattery(battery);
         this.initialScanner= false;
