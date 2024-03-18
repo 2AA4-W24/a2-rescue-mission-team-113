@@ -1,22 +1,22 @@
 package ca.mcmaster.se2aa4.island.team113;
 
 public class DroneBattery {
-    private Integer juice;
+    private Integer charge;
 
     public DroneBattery(Integer juice) {
-        this.juice = juice;
+        this.charge = juice;
     }
 
-    public Integer getJuice(){
-        return juice;
+    public Integer getCharge(){
+        return charge;
     }
 
     public void loseJuice(Integer used){
-        juice = juice - used;
+        charge = charge - used;
     }
 
     public boolean lowcheck(){
-        return juice < 27;
+        return charge < 27;
     }
 
     

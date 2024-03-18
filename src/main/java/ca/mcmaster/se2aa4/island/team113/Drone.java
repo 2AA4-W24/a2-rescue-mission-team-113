@@ -115,7 +115,7 @@ public class Drone {
     public void resultCheck(Information info){ 
         Integer cost = info.getCost();
         battery.loseJuice(cost);
-        logger.info("BATTERY CHECK: {}", battery.getJuice());
+        logger.info("BATTERY CHECK: {}", battery.getCharge());
         ground.resultCheck(info);
         if (ground.getonGround()){
             initializeScanner();
