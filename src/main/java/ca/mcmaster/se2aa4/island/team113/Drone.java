@@ -25,8 +25,6 @@ public class Drone {
         this.initialScanner= false;
         ground = new GoToGround(initialDirection);
         this.mapTrack = new PositionTrack(initialDirection);
-
-        
         
     }
 
@@ -36,7 +34,7 @@ public class Drone {
 
     private void initializeScanner(){
         if (!initialScanner){
-            islandScanner = new ScanIsland(ground.getcurrentDirection(), initialDirection);
+            islandScanner = new ScanIsland(ground.getCurrentDirection(), initialDirection);
             initialScanner = true;
 
         }
@@ -49,13 +47,10 @@ public class Drone {
         ground.resultCheck(info);
         if (ground.getonGround()){
             initializeScanner();
-            currentDirection = ground.getcurrentDirection();
+            currentDirection = ground.getCurrentDirection();
             islandScanner.resultCheck(info);
         }
         mapTrack.mapUpdate(info);
-
-
-        
         
     }
     
@@ -65,9 +60,11 @@ public class Drone {
         if (battery.lowcheck()){
             decision.put("action", "stop") ;
         }else if(ground.getonGround()){
+            logger.info("ON GROUND IS TRUE");
             decision = islandScanner.makeDecision();
 
         }else if (!ground.getonGround()){
+            logger.info("ON GROUND IS FALSE");
              decision = ground.makeDecision();
         }
         mapTrack.positionTracker(decision);

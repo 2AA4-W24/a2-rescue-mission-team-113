@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public interface DecisionMaker {
     JSONObject makeDecision();
-     void resultCheck(Information info);
+
 
 
 }

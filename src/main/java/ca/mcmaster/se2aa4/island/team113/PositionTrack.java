@@ -31,6 +31,9 @@ public class PositionTrack {
     public Coordinate getCurrentCoordinate(){
         return position;
     }
+    public Direction getcurrentDirection(){
+        return currentDirection;
+    }
 
 
     public String findClosestCreek(){
@@ -70,8 +73,8 @@ public class PositionTrack {
             logger.info("{}",command.fly().toString(2));
             position = position.forward(currentDirection);
         }
-        logger.info(" X COORDINATE {}", position.getX());
-        logger.info(" Y COORDINATE {}", position.getY());
+        //logger.info(" X COORDINATE {}", position.getX());
+        //logger.info(" Y COORDINATE {}", position.getY());
 
     }
 

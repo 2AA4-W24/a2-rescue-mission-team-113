@@ -276,10 +276,10 @@ public class ScanIsland implements DecisionMaker{
     }
 
     public JSONObject makeDecision() {
-        if(map.getCurrentCoordinate().equals(initalCoordinate)){
-            logger.info("ARE EQUAL ");
-            runs++;
-        }
+        //if(map.getCurrentCoordinate().equals(initalCoordinate)){
+          //  logger.info("ARE EQUAL ");
+            //runs++;
+        //}
         logger.info("RUNS: {}", runs);
         if (runs == 3){
             logger.info("RUNS IS 3");

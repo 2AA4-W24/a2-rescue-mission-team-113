@@ -31,4 +31,6 @@ public class MapOfPoints {
 
         return Math.sqrt(x*x + y*y);
     }
+
+    
 }
