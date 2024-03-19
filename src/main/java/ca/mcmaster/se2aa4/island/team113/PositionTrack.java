@@ -28,6 +28,9 @@ public class PositionTrack {
 
         
     }
+    public Coordinate getCurrentCoordinate(){
+        return position;
+    }
 
 
     public String findClosestCreek(){

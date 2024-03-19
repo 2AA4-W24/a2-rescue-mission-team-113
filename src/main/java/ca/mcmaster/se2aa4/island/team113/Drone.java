@@ -10,10 +10,8 @@ import org.json.JSONObject;
 public class Drone {
     private final Logger logger = LogManager.getLogger();
     private Direction currentDirection ;
-    Commands command = new Commands();
     Integer charge;
     private DroneBattery battery;
-    private Information info;
     GoToGround ground;
     ScanIsland islandScanner;
     private boolean initialScanner;
@@ -32,6 +30,10 @@ public class Drone {
         
     }
 
+    public Coordinate getCurrentPosition(){
+        return mapTrack.getCurrentCoordinate();
+    }
+
     private void initializeScanner(){
         if (!initialScanner){
             islandScanner = new ScanIsland(ground.getcurrentDirection(), initialDirection);
@@ -48,7 +50,6 @@ public class Drone {
         if (ground.getonGround()){
             initializeScanner();
             currentDirection = ground.getcurrentDirection();
-            logger.info("CURRENT DIRECTION 1 {}", currentDirection.directionToString());
             islandScanner.resultCheck(info);
         }
         mapTrack.mapUpdate(info);
@@ -69,8 +70,6 @@ public class Drone {
         }else if (!ground.getonGround()){
              decision = ground.makeDecision();
         }
-        logger.info("BEGIN MAP");
-        logger.info("{}",decision.toString(2));
         mapTrack.positionTracker(decision);
 
         if(decision.getString("action").equals("stop")){
