@@ -9,7 +9,7 @@ public class GoToGround implements DecisionMaker{
     private GoToGroundState currentState;
     private Direction currentDirection ;
     private Direction echoDirection ;
-    Commands command = new Commands();
+    private Commands command = new Commands();
 
     private int flyCount = 0;
     private boolean onGround;
@@ -28,37 +28,13 @@ public class GoToGround implements DecisionMaker{
         this.currentState = state;
     }
 
-    public void setFlyCount(Integer flyCount){
-        this.flyCount= flyCount;
-    }
-
-    public int getFlyCount(){
-        return flyCount;
-    }
-
     public Direction getCurrentDirection(){
         return currentDirection;
-
-    }
-    public Direction getEchoDirection(){
-        return echoDirection;
-    }
-
-    public Information getInfo(){
-        return info;
-    }
-    public void setEchoDirection(Direction echoDirection){
-        this.echoDirection=echoDirection;
 
     }
 
     public boolean getonGround(){
         return onGround;
-    }
-
-    public void setOnGround(boolean onGround){
-        this.onGround= onGround;
-
     }
 
     public void resultCheck(Information info){
@@ -86,10 +62,9 @@ public class GoToGround implements DecisionMaker{
         @Override
         public JSONObject handleNextState(GoToGround context) {
             JSONObject decision = new JSONObject();
-            Commands command = new Commands();
             
-            decision = command.echo(context.getCurrentDirection());
-            context.setEchoDirection(context.getCurrentDirection());
+            decision = command.echo(currentDirection);
+            echoDirection= currentDirection;
             context.setState(new EchoFront());
     
             return decision;
@@ -102,18 +77,16 @@ public class GoToGround implements DecisionMaker{
         @Override
         public JSONObject handleNextState(GoToGround context) {
             JSONObject decision = new JSONObject();
-            Commands command = new Commands();
-            Information info = context.getInfo();
             JSONObject extras = info.getExtras();
     
             if (extras.getString("found").equals("OUT_OF_RANGE")){
-                decision = command.echo(context.getCurrentDirection().goRight());
-                context.setEchoDirection(context.getCurrentDirection().goRight());
+                decision = command.echo(currentDirection.goRight());
+                echoDirection= currentDirection.goRight();
     
                 context.setState(new EchoRight());
     
             }else{
-                decision = command.echo(context.getCurrentDirection());
+                decision = command.echo(currentDirection);
                 context.setState(new GroundRange());
             }
     
@@ -129,19 +102,17 @@ public class GoToGround implements DecisionMaker{
         @Override
         public JSONObject handleNextState(GoToGround context) {
             JSONObject decision = new JSONObject();
-            Commands command = new Commands();
-            Information info = context.getInfo();
             JSONObject extras = info.getExtras();
     
             if (extras.getString("found").equals("OUT_OF_RANGE")){
-                decision = command.echo(context.getCurrentDirection().goLeft());
-                context.setEchoDirection(context.getCurrentDirection().goLeft());
+                decision = command.echo(currentDirection.goLeft());
+                echoDirection= currentDirection.goLeft();
     
                 context.setState(new EchoLeft());
     
             }else{
                 context.setState(new TurnToGround());
-                Direction turndirection = context.getCurrentDirection();
+                Direction turndirection = currentDirection;
                 decision = command.Turn(turndirection.goRight());
             }
             return decision;
@@ -153,8 +124,6 @@ public class GoToGround implements DecisionMaker{
         @Override
         public JSONObject handleNextState(GoToGround context) {
             JSONObject decision = new JSONObject();
-            Commands command = new Commands();
-            Information info = context.getInfo();
             JSONObject extras = info.getExtras();
     
             if (extras.getString("found").equals("OUT_OF_RANGE")){
@@ -164,7 +133,7 @@ public class GoToGround implements DecisionMaker{
     
             }else{
                 context.setState(new TurnToGround());
-                decision = command.Turn(context.getCurrentDirection().goLeft());
+                decision = command.Turn(currentDirection.goLeft());
             }
             return decision;
         }
@@ -176,13 +145,11 @@ public class GoToGround implements DecisionMaker{
         @Override
         public JSONObject handleNextState(GoToGround context) {
             JSONObject decision = new JSONObject();
-            Commands command = new Commands();
-            Information info = context.getInfo();
             JSONObject extras = info.getExtras();
             Integer range;
     
             range = extras.getInt("range");
-            context.setFlyCount(range);
+            flyCount= range;
             decision = command.fly();
             context.setState(new FlyToGround());
     
@@ -198,9 +165,8 @@ public class GoToGround implements DecisionMaker{
         @Override
         public JSONObject handleNextState(GoToGround context) {
             JSONObject decision = new JSONObject();
-            Commands command = new Commands();
             
-            decision = command.echo(context.getCurrentDirection());
+            decision = command.echo(currentDirection);
             context.setState(new GroundRange());
     
             return decision;
@@ -212,21 +178,17 @@ public class GoToGround implements DecisionMaker{
 
         @Override
         public JSONObject handleNextState(GoToGround context) {
-            Commands command = new Commands();
             JSONObject decision = new JSONObject();
             
-            if(context.getFlyCount() > 0){
+            if(flyCount > 0){
                 decision = command.fly();
-                context.setFlyCount(context.getFlyCount()- 1);
+                flyCount--;
                 context.setState(new FlyToGround());
             }else{
                 decision = command.scan();
                 context.setState(new Scan());
     
             }
-            
-    
-            
     
             return decision;
         }
@@ -237,12 +199,9 @@ public class GoToGround implements DecisionMaker{
     private final Logger logger = LogManager.getLogger();
 
     @Override
-    public JSONObject handleNextState(GoToGround context) {
-        
+    public JSONObject handleNextState(GoToGround context) {   
 
         JSONObject decision = new JSONObject();
-        Commands command = new Commands();
-        Information info = context.getInfo();
         JSONObject extras = info.getExtras();
 
         JSONArray biomesArray = extras.getJSONArray("biomes");
@@ -254,7 +213,7 @@ public class GoToGround implements DecisionMaker{
                 
             } else{
                 logger.info("NOT ON OCEAN");
-                context.setOnGround(true);
+                onGround= true;
                 decision = command.fly();
             }   
         return decision;
@@ -262,12 +221,6 @@ public class GoToGround implements DecisionMaker{
     }
     
 }
-
-    
-
-
-    
-    
 
 
 }
