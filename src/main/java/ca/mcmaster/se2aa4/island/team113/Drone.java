@@ -52,6 +52,12 @@ public class Drone {
         mapTrack.mapUpdate(info);
         
     }
+    public String closestCreek(){
+
+        logger.info("THE CLOSEST CREEK IS {}", mapTrack.findClosestCreek());
+
+        return mapTrack.findClosestCreek();
+    }
     
     public JSONObject makeDecision(){
         JSONObject decision = new JSONObject();   
@@ -68,9 +74,14 @@ public class Drone {
         }
         mapTrack.positionTracker(decision);
 
-        if(decision.getString("action").equals("stop")){
-            logger.info("THE CLOSEST CREEK IS {}", mapTrack.findClosestCreek());
-        }
+        //if(decision.getString("action").equals("stop")){
+          //  logger.info("THE CLOSEST CREEK IS {}", mapTrack.findClosestCreek());
+            //return mapTrack.findClosestCreek();
+        //}
+
+        //closestCreek(decision);
+
+        
        
         return decision;
     }
