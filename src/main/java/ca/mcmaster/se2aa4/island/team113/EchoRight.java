@@ -1,11 +1,7 @@
 package ca.mcmaster.se2aa4.island.team113;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 public class EchoRight implements GoToGroundState{
-    private final Logger logger = LogManager.getLogger();
 
     @Override
     public JSONObject handleNextState(GoToGround context) {
@@ -21,12 +17,9 @@ public class EchoRight implements GoToGroundState{
             context.setState(new EchoLeft());
 
         }else{
-            logger.info("FOUND GROUND STATE ECHORIGHT");
             context.setState(new TurnToGround());
-            logger.info("CHECKPOINT 1");
             Direction turndirection = context.getCurrentDirection();
             decision = command.Turn(turndirection.goRight());
-            logger.info("CHECKPOINT 2");
         }
         return decision;
     }

@@ -12,9 +12,7 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private Drone drone;
-    public int runs =0;
     public Information information;
-    private JsonTranslate translator;
     
 
 
@@ -49,7 +47,6 @@ public class Explorer implements IExplorerRaid {
     public void acknowledgeResults(String s) {
         JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
         JsonTranslate translator = new JsonTranslate();
-        //info = translator.translate(response);
         logger.info("** Response received:\n"+response.toString(2));
         Integer cost = response.getInt("cost");
         logger.info("The cost of the action was {}", cost);

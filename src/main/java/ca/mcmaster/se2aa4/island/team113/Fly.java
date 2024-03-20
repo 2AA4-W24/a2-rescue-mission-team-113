@@ -9,7 +9,6 @@ public class Fly implements GoToGroundState{
         JSONObject decision = new JSONObject();
         Commands command = new Commands();
         
-        context.setState(new EchoFront());
         decision = command.echo(context.getCurrentDirection());
         context.setEchoDirection(context.getCurrentDirection());
         context.setState(new EchoFront());

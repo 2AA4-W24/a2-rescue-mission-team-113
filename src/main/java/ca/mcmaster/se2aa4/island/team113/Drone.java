@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Drone {
@@ -13,7 +12,7 @@ public class Drone {
     Integer charge;
     private DroneBattery battery;
     GoToGround ground;
-    ScanIsland islandScanner;
+    GridSearch islandScanner;
     private boolean initialScanner;
     private Direction initialDirection;
     private PositionTrack mapTrack;
@@ -34,7 +33,7 @@ public class Drone {
 
     private void initializeScanner(){
         if (!initialScanner){
-            islandScanner = new ScanIsland(ground.getCurrentDirection(), initialDirection);
+            islandScanner = new GridSearch(ground.getCurrentDirection(), initialDirection);
             initialScanner = true;
 
         }

@@ -2,7 +2,7 @@ package ca.mcmaster.se2aa4.island.team113;
 
 import org.json.JSONObject;
 
-public class LastEchoFront implements GoToGroundState{
+public class GroundRange implements GoToGroundState{
 
     @Override
     public JSONObject handleNextState(GoToGround context) {
@@ -15,7 +15,7 @@ public class LastEchoFront implements GoToGroundState{
         range = extras.getInt("range");
         context.setFlyCount(range);
         decision = command.fly();
-        context.setState(new FindGroundRange());
+        context.setState(new FlyToGround());
 
         
 

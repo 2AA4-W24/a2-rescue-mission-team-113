@@ -19,7 +19,7 @@ public class EchoFront implements GoToGroundState{
 
         }else{
             decision = command.echo(context.getCurrentDirection());
-            context.setState(new LastEchoFront());
+            context.setState(new GroundRange());
         }
 
         
