@@ -16,6 +16,7 @@ public class GridSearch implements DecisionMaker{
     private GridSearchStates currentState;
     private Information info;
     private int range;
+    private int flyCount;
 
 
     public GridSearch(Direction currentDirection, Direction initialDirection){
@@ -57,7 +58,7 @@ public class GridSearch implements DecisionMaker{
         public JSONObject handleNextState(GridSearch context) {
             JSONObject decision = new JSONObject();
             Commands command = new Commands();
-            
+            flyCount++;
             decision = command.scan();
             context.setState(new Scan());
     
@@ -101,12 +102,14 @@ private class CheckGround implements GridSearchStates{
        if (extras.getString("found").equals("GROUND")){
            range = extras.getInt("range");
            decision = command.fly();
+           flyCount += range;
            context.setState(new FlyRange());
 
        }else{
            logger.info("NO GROUND FOUND CASE");
 
            range = extras.getInt("range") - 4;
+           flyCount += range;
            decision = command.scan();
            context.setState(new FlyToMapEdge());
 
@@ -203,13 +206,16 @@ private class CheckEdge implements GridSearchStates{
 
     @Override
     public JSONObject handleNextState(GridSearch context) {
+        logger.info("CHECK EDGE");
         JSONObject decision = new JSONObject();
         Commands command = new Commands();
         JSONObject extras = info.getExtras();
+        
 
         if (extras.getString("found").equals("GROUND")){
             range = extras.getInt("range");
             decision = command.fly();
+            flyCount =0;
             context.setState(new FlyRange());
 
         }else{
@@ -237,7 +243,12 @@ private class AtEdge implements GridSearchStates{
             decision = decision.put("action", "stop");
 
         }else{
-            Direction temp = currentDirection;
+            if (flyCount > 0){
+                flyCount--;
+                decision = command.fly();
+                context.setState(new AtEdge());
+            }else{
+                Direction temp = currentDirection;
             if (goingRight){
                 logger.info("AT EDGE ECHO LEFT");
                 
@@ -246,8 +257,9 @@ private class AtEdge implements GridSearchStates{
                 logger.info("AT EDGE ECHO RIGHT");
                 decision = command.echo(temp.goRight());
             }
-
             context.setState(new EchoSide());
+
+            }
 
         }
         
@@ -263,6 +275,7 @@ private class EchoSide implements GridSearchStates{
 
     @Override
     public JSONObject handleNextState(GridSearch context) {
+        logger.info("ECHO SIDE");
         JSONObject decision = new JSONObject();
         Commands command = new Commands();
 
@@ -272,7 +285,7 @@ private class EchoSide implements GridSearchStates{
         if (extras.getString("found").equals("GROUND")){
             logger.info("ECHO SIDE GROUND FOUND");
             decision = command.fly();
-            context.setState(new AtEdge());
+            context.setState(new FlyBack());
 
         }else{
             logger.info("ECHO SIDE NO GROUND FOUND");
@@ -291,10 +304,37 @@ private class EchoSide implements GridSearchStates{
     }
     
 }
+
+private class FlyBack implements GridSearchStates{
+    
+    @Override
+    public JSONObject handleNextState(GridSearch context) {
+        logger.info("ECHO SIDE");
+    JSONObject decision = new JSONObject();
+    Commands command = new Commands();
+
+    Direction temp = currentDirection;
+    if (goingRight){
+        logger.info("AT EDGE ECHO LEFT");
+        
+        decision = command.echo(temp.goLeft());
+    }else{
+        logger.info("AT EDGE ECHO RIGHT");
+        decision = command.echo(temp.goRight());
+    }
+
+    context.setState(new EchoSide());
+
+    return decision;
+    }
+    
+}
+
 private class BigTurn1 implements GridSearchStates{
 
     @Override
     public JSONObject handleNextState(GridSearch context) {
+        logger.info("BIG TURN 1");
         JSONObject decision = new JSONObject();
         Commands command = new Commands();
         
@@ -309,6 +349,7 @@ private class BigTurn1 implements GridSearchStates{
 private class BigTurn2 implements GridSearchStates{
     @Override
     public JSONObject handleNextState(GridSearch context) {
+        logger.info("BIG TURN 2");
         JSONObject decision = new JSONObject();
         Commands command = new Commands();
         Direction temp = currentDirection;
@@ -328,6 +369,7 @@ private class BigTurn3 implements GridSearchStates{
 
     @Override
     public JSONObject handleNextState(GridSearch context) {
+        logger.info("BIG TURN 3");
         JSONObject decision = new JSONObject();
         Commands command = new Commands();
         
