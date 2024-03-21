@@ -25,34 +25,11 @@ public class GridSearch implements DecisionMaker{
         this.map = new PositionTrack(currentDirection);
         this.currentState = new Flying();
 
-
     }
+    
     public void setState(GridSearchStates state) {
         this.currentState = state;
     }
-
-    //public Information getInfo(){
-      //  return info;
-    //}
-
-    //public Direction getCurrentDirection(){
-    //    return currentDirection;
-    //}
-
-    //public boolean getGoingRight(){
-    //    return goingRight;
-    //}
-
-    //public int getEdgeCount(){
-      //  return edgeCounter;
-    //}
-    //public void setEdgeCount(int edgeCount){
-//this.edgeCounter = edgeCount;
-    //}
-
-    //public void setGoingRight(boolean goingRight){
-     //   this.goingRight = goingRight;
-    //}
 
     public void resultCheck(Information info) {  
 
