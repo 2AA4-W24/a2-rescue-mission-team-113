@@ -15,6 +15,7 @@ public class GridSearch implements DecisionMaker{
     private PositionTrack map;
     private GridSearchStates currentState;
     private Information info;
+    private int range;
 
 
     public GridSearch(Direction currentDirection, Direction initialDirection){
@@ -23,10 +24,10 @@ public class GridSearch implements DecisionMaker{
         this.edgeCounter = 0;
         this.goingRight=true;
         this.map = new PositionTrack(currentDirection);
-        this.currentState = new Flying();
+        this.currentState = new Fly();
 
     }
-    
+
     public void setState(GridSearchStates state) {
         this.currentState = state;
     }
@@ -50,7 +51,7 @@ public class GridSearch implements DecisionMaker{
         JSONObject handleNextState(GridSearch context);
     }
 
-    private class Flying implements GridSearchStates{
+    private class Fly implements GridSearchStates{
 
         @Override
         public JSONObject handleNextState(GridSearch context) {
@@ -58,14 +59,14 @@ public class GridSearch implements DecisionMaker{
             Commands command = new Commands();
             
             decision = command.scan();
-            context.setState(new Scanning());
+            context.setState(new Scan());
     
             return decision;
         }
         
     }
 
-    private class Scanning implements GridSearchStates{
+    private class Scan implements GridSearchStates{
 
     @Override
     public JSONObject handleNextState(GridSearch context) {
@@ -80,7 +81,7 @@ public class GridSearch implements DecisionMaker{
                 context.setState(new CheckGround());
             } else{
                 decision = command.fly();
-                context.setState(new Flying());
+                context.setState(new Fly());
             }      
 
         return decision;
@@ -98,27 +99,69 @@ private class CheckGround implements GridSearchStates{
        JSONObject extras = info.getExtras();
 
        if (extras.getString("found").equals("GROUND")){
+           range = extras.getInt("range");
            decision = command.fly();
-           context.setState(new Flying());
+           context.setState(new FlyRange());
 
        }else{
            logger.info("NO GROUND FOUND CASE");
-           Direction temp = currentDirection;
-           logger.info("TEMP DIRECTION {}", temp.directionToString());
-           if (goingRight){
-               
-               decision = command.Turn(temp.goRight());
-           }else{
-               decision = command.Turn(temp.goLeft());
-           }
-           context.setState(new Uturn1());
-       }
 
-       
+           range = extras.getInt("range") - 4;
+           decision = command.scan();
+           context.setState(new FlyToMapEdge());
+
+
+           
+       }
 
        return decision;
    }
 }
+private class FlyRange implements GridSearchStates{
+
+    @Override
+    public JSONObject handleNextState(GridSearch context) {
+        JSONObject decision= new JSONObject();
+        if(range > 0){
+            decision = command.fly();
+            range--;
+            context.setState(new FlyRange());
+        }else{
+            decision= command.scan();
+            context.setState(new Scan());
+        }
+
+        return decision;
+    }
+    
+}
+
+private class FlyToMapEdge implements GridSearchStates{
+
+    @Override
+    public JSONObject handleNextState(GridSearch context) {
+        JSONObject decision = new JSONObject();
+        Direction temp = currentDirection;
+
+        if (range >0){
+            decision= command.fly();
+            range--;
+            context.setState(new FlyToMapEdge());
+        }else{
+            if (goingRight){
+               
+                decision = command.Turn(temp.goRight());
+            }else{
+                decision = command.Turn(temp.goLeft());
+            }
+            context.setState(new Uturn1());
+        }
+        return decision;
+    }
+    
+}
+
+
 private class Uturn1 implements GridSearchStates{
 
     @Override
@@ -165,8 +208,9 @@ private class CheckEdge implements GridSearchStates{
         JSONObject extras = info.getExtras();
 
         if (extras.getString("found").equals("GROUND")){
+            range = extras.getInt("range");
             decision = command.fly();
-            context.setState(new Flying());
+            context.setState(new FlyRange());
 
         }else{
             edgeCounter++;
@@ -288,7 +332,7 @@ private class BigTurn3 implements GridSearchStates{
         Commands command = new Commands();
         
         decision = command.fly();
-        context.setState(new Flying());
+        context.setState(new Fly());
 
         return decision;
     } 
