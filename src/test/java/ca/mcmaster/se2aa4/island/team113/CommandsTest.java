@@ -71,6 +71,42 @@ public class CommandsTest {
     }
 
     @Test
+    public void turnWithGoRightShouldReturnE() {
+        Commands commands = new Commands();
+        JSONObject decision = commands.Turn(direction.goRight());
+
+        assertEquals("heading", decision.getString("action"));
+        assertEquals("E", decision.getJSONObject("parameters").getString("direction"));
+    }
+
+    @Test
+    public void turnWithGoRightShouldNotReturnN() {
+        Commands commands = new Commands();
+        JSONObject decision = commands.Turn(direction.goRight());
+
+        assertEquals("heading", decision.getString("action"));
+        assertNotEquals("N", decision.getJSONObject("parameters").getString("direction"));
+    }
+
+    @Test
+    public void turnWithGoLeftShouldReturnW() {
+        Commands commands = new Commands();
+        JSONObject decision = commands.Turn(direction.goLeft());
+
+        assertEquals("heading", decision.getString("action"));
+        assertEquals("W", decision.getJSONObject("parameters").getString("direction"));
+    }
+
+    @Test
+    public void turnWithGoLeftShouldNotReturnN() {
+        Commands commands = new Commands();
+        JSONObject decision = commands.Turn(direction.goLeft());
+
+        assertEquals("heading", decision.getString("action"));
+        assertNotEquals("N", decision.getJSONObject("parameters").getString("direction"));
+    }
+
+    @Test
     public void flyTest() {
         Commands commands = new Commands();
         JSONObject decision = commands.fly();
