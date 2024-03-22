@@ -9,42 +9,42 @@ class DroneBatteryTest {
     private DroneBattery battery;
 
     @BeforeEach
-    public void initializeBattery() {
+     void initializeBattery() {
         battery = new DroneBattery(100);
     }
 
     @Test
-    public void shouldDecreaseBatteryBy10() {
+     void shouldDecreaseBatteryBy10() {
         battery.loseJuice(10);
         assertEquals(90, battery.getCharge());
     }
 
     @Test
-    public void shouldDecreaseBatteryBy40() {
+     void shouldDecreaseBatteryBy40() {
         battery.loseJuice(40);
         assertEquals(60, battery.getCharge());
     }
     
     @Test
-    public void shouldBeLow() {
+     void shouldBeLow() {
         battery.loseJuice(80);
         assertTrue(battery.lowcheck());
     }
 
     @Test
-    public void shouldNotBeLow() {
+     void shouldNotBeLow() {
         battery.loseJuice(70);
         assertFalse(battery.lowcheck());
     }
 
     @Test
-    public void shouldBeLowEdgeCase() {
+     void shouldBeLowEdgeCase() {
         battery.loseJuice(74);
         assertTrue(battery.lowcheck());
     }
 
     @Test
-    public void shouldNotBeLowEdgeCase() {
+     void shouldNotBeLowEdgeCase() {
         battery.loseJuice(73);
         assertFalse(battery.lowcheck());
     }

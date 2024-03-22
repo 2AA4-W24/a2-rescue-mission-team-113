@@ -12,12 +12,12 @@ class CommandsTest {
     private Direction direction;
 
     @BeforeEach
-    public void initializeDirection() {
+    void initializeDirection() {
         direction = Direction.N;
     }
 
     @Test
-    public void echoShouldReturnN() {
+    void echoShouldReturnN() {
         Commands commands = new Commands();
         JSONObject decision = commands.echo(direction);
 
@@ -26,7 +26,7 @@ class CommandsTest {
     }
 
     @Test
-    public void echoShouldNotReturnE() {
+    void echoShouldNotReturnE() {
         Commands commands = new Commands();
         JSONObject decision = commands.echo(direction);
 
@@ -35,7 +35,7 @@ class CommandsTest {
     }
 
     @Test
-    public void turnRightShouldReturnE() {
+    void turnRightShouldReturnE() {
         Commands commands = new Commands();
         JSONObject decision = commands.turnRight(direction);
 
@@ -44,7 +44,7 @@ class CommandsTest {
     }
 
     @Test
-    public void turnRightShouldNotReturnN() {
+    void turnRightShouldNotReturnN() {
         Commands commands = new Commands();
         JSONObject decision = commands.turnRight(direction);
 
@@ -53,7 +53,7 @@ class CommandsTest {
     }
 
     @Test
-    public void turnLeftShouldReturnW() {
+    void turnLeftShouldReturnW() {
         Commands commands = new Commands();
         JSONObject decision = commands.turnLeft(direction);
 
@@ -62,7 +62,7 @@ class CommandsTest {
     }
 
     @Test
-    public void turnLeftShouldNotReturnN() {
+    void turnLeftShouldNotReturnN() {
         Commands commands = new Commands();
         JSONObject decision = commands.turnLeft(direction);
 
@@ -71,7 +71,7 @@ class CommandsTest {
     }
 
     @Test
-    public void turnWithGoRightShouldReturnE() {
+    void turnWithGoRightShouldReturnE() {
         Commands commands = new Commands();
         JSONObject decision = commands.turn(direction.goRight());
 
@@ -80,7 +80,7 @@ class CommandsTest {
     }
 
     @Test
-    public void turnWithGoRightShouldNotReturnN() {
+    void turnWithGoRightShouldNotReturnN() {
         Commands commands = new Commands();
         JSONObject decision = commands.turn(direction.goRight());
 
@@ -89,7 +89,7 @@ class CommandsTest {
     }
 
     @Test
-    public void turnWithGoLeftShouldReturnW() {
+    void turnWithGoLeftShouldReturnW() {
         Commands commands = new Commands();
         JSONObject decision = commands.turn(direction.goLeft());
 
@@ -98,7 +98,7 @@ class CommandsTest {
     }
 
     @Test
-    public void turnWithGoLeftShouldNotReturnN() {
+    void turnWithGoLeftShouldNotReturnN() {
         Commands commands = new Commands();
         JSONObject decision = commands.turn(direction.goLeft());
 
@@ -107,7 +107,7 @@ class CommandsTest {
     }
 
     @Test
-    public void flyTest() {
+    void flyTest() {
         Commands commands = new Commands();
         JSONObject decision = commands.fly();
 
@@ -115,7 +115,7 @@ class CommandsTest {
     }
 
     @Test
-    public void scanTest() {
+    void scanTest() {
         Commands commands = new Commands();
         JSONObject decision = commands.scan();
 

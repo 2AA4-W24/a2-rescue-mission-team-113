@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DirectionTest {
     @Test
-    public void goRightTest() {
+     void goRightTest() {
         assertEquals(Direction.E, Direction.N.goRight());
         assertEquals(Direction.S, Direction.E.goRight());
         assertEquals(Direction.W, Direction.S.goRight());
@@ -14,7 +14,7 @@ class DirectionTest {
     }
 
     @Test
-    public void goLeftTest() {
+     void goLeftTest() {
         assertEquals(Direction.W, Direction.N.goLeft());
         assertEquals(Direction.N, Direction.E.goLeft());
         assertEquals(Direction.E, Direction.S.goLeft());
@@ -22,7 +22,7 @@ class DirectionTest {
     }
 
     @Test
-    public void directionToStringTest() {
+     void directionToStringTest() {
         assertEquals("N", Direction.N.directionToString());
         assertEquals("E", Direction.E.directionToString());
         assertEquals("S", Direction.S.directionToString());
@@ -30,7 +30,7 @@ class DirectionTest {
     }
 
     @Test
-    public void oppositeDirectionTest() {
+     void oppositeDirectionTest() {
         assertEquals(Direction.S, Direction.N.oppositeDirection());
         assertEquals(Direction.W, Direction.E.oppositeDirection());
         assertEquals(Direction.N, Direction.S.oppositeDirection());
@@ -38,7 +38,7 @@ class DirectionTest {
     }
 
     @Test
-    public void stringToDirectionTest() {
+     void stringToDirectionTest() {
         assertEquals(Direction.N, Direction.stringToDirection("N"));
         assertEquals(Direction.E, Direction.stringToDirection("E"));
         assertEquals(Direction.S, Direction.stringToDirection("S"));
