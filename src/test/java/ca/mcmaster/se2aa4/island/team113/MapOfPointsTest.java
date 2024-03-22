@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class MapOfPointsTest {
+class MapOfPointsTest {
 
     private MapOfPoints map;
 

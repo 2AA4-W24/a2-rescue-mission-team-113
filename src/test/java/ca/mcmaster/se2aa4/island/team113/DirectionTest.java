@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class DirectionTest {
+class DirectionTest {
     @Test
     public void goRightTest() {
         assertEquals(Direction.E, Direction.N.goRight());
