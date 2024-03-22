@@ -6,54 +6,59 @@ import org.json.JSONObject;
 
 public class Commands {
     private final Logger logger = LogManager.getLogger();
+    private String actionstr = "action";
+    private String directionstr = "direction";
+    private String parameterstr = "parameters";
+    private String headingstr = "heading";
+
 
     
     public JSONObject echo(Direction direction) {
         JSONObject decision = new JSONObject();
         
-        decision.put("action", "echo");
-        decision.put("parameters", new JSONObject().put("direction", direction.directionToString()));
+        decision.put(actionstr, "echo");
+        decision.put(parameterstr, new JSONObject().put(directionstr, direction.directionToString()));
         return decision;
     }
 
     
-    public JSONObject TurnRight(Direction direction) {
+    public JSONObject turnRight(Direction direction) {
         JSONObject decision = new JSONObject();
         String right = direction.goRight().directionToString();
-        decision.put("action", "heading");
-        decision.put("parameters", new JSONObject().put("direction", right));
+        decision.put(actionstr, headingstr);
+        decision.put(parameterstr, new JSONObject().put(directionstr, right));
         return decision;
     }
 
     
-    public JSONObject TurnLeft(Direction direction) {
+    public JSONObject turnLeft(Direction direction) {
         JSONObject decision = new JSONObject();
         String left = direction.goLeft().directionToString();
-        decision.put("action", "heading");
-        decision.put("parameters", new JSONObject().put("direction", left));
+        decision.put(actionstr, headingstr);
+        decision.put(parameterstr, new JSONObject().put(directionstr, left));
         return decision;
     }
     
-    public JSONObject Turn(Direction direction) {
+    public JSONObject turn(Direction direction) {
         JSONObject decision = new JSONObject();
         String turn = direction.directionToString();
         logger.info("TURN DIRECTION {}", turn);
-        decision.put("action", "heading");
-        decision.put("parameters", new JSONObject().put("direction", turn));
+        decision.put(actionstr, headingstr);
+        decision.put(parameterstr, new JSONObject().put(directionstr, turn));
         return decision;
     }
 
     
     public JSONObject fly() {
         JSONObject decision = new JSONObject();
-        decision.put("action", "fly");
+        decision.put(actionstr, "fly");
         return decision;
     }
 
     
     public JSONObject scan() {
         JSONObject decision = new JSONObject();
-        decision.put("action", "scan");
+        decision.put(actionstr, "scan");
         return decision;
     }
     

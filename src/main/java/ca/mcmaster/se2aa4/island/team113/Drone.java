@@ -1,14 +1,11 @@
 package ca.mcmaster.se2aa4.island.team113;
 
-import java.util.ArrayList;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 public class Drone {
     private final Logger logger = LogManager.getLogger();
-    private Direction currentDirection ;
     Integer charge;
     private DroneBattery battery;
     GoToGround ground;
@@ -33,7 +30,7 @@ public class Drone {
 
     private void initializeScanner(){
         if (!initialScanner){
-            islandScanner = new GridSearch(ground.getCurrentDirection(), initialDirection);
+            islandScanner = new GridSearch(ground.getCurrentDirection());
             initialScanner = true;
 
         }
@@ -46,7 +43,6 @@ public class Drone {
         ground.resultCheck(info);
         if (ground.getonGround()){
             initializeScanner();
-            currentDirection = ground.getCurrentDirection();
             islandScanner.resultCheck(info);
         }
         mapTrack.mapUpdate(info);
@@ -74,15 +70,6 @@ public class Drone {
         }
         mapTrack.positionTracker(decision);
 
-        //if(decision.getString("action").equals("stop")){
-          //  logger.info("THE CLOSEST CREEK IS {}", mapTrack.findClosestCreek());
-            //return mapTrack.findClosestCreek();
-        //}
-
-        //closestCreek(decision);
-
-        
-       
         return decision;
     }
 

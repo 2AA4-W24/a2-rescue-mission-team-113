@@ -12,7 +12,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private Drone drone;
-    public Information information;
     
 
 
@@ -24,8 +23,6 @@ public class Explorer implements IExplorerRaid {
         logger.info("** Initialization info:\n {}",info.toString(2));
         
         String direction = info.getString("heading");
-        Direction currentDirection = Direction.stringToDirection(direction);
-        logger.info("ENUM INITIALIZE : {}", currentDirection.directionToString());
         Integer batteryLevel = info.getInt("budget");
         
         drone = new Drone(batteryLevel, direction);
@@ -36,8 +33,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        JSONObject decision = new JSONObject();
-        decision = drone.makeDecision();
+        JSONObject decision = drone.makeDecision();
         logger.info("** Decision: {}",decision.toString());
         return decision.toString();
     }   
@@ -54,7 +50,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("The status of the drone is {}", status);
         JSONObject extraInfo = response.getJSONObject("extras");
         logger.info("Additional information received: {}", extraInfo);
-        information = translator.translate(response);
+        Information information = translator.translate(response);
         drone.resultCheck(information);
     }
 

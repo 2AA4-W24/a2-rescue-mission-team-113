@@ -18,16 +18,16 @@ public class MapOfPoints {
         return pointsOfInterest.get(poi);
     }
 
-    public double calculateDistance(String emergency_site, String creek) {
-        Coordinate emergency_site_pos = pointsOfInterest.get(emergency_site);
-        Coordinate creek_pos = pointsOfInterest.get(creek);
+    public double calculateDistance(String emergencySite, String creek) {
+        Coordinate emergencySitePOS = pointsOfInterest.get(emergencySite);
+        Coordinate creekPOS = pointsOfInterest.get(creek);
 
-        if (emergency_site_pos == null || creek_pos == null) {
+        if (emergencySitePOS == null || creekPOS == null) {
             throw new IllegalArgumentException("One or both points not found in map");
         }
 
-        double x = emergency_site_pos.getX() - creek_pos.getX();
-        double y = emergency_site_pos.getY() - creek_pos.getY();
+        double x = emergencySitePOS.getX() - creekPOS.getX();
+        double y = emergencySitePOS.getY() - creekPOS.getY();
 
         return Math.sqrt(x*x + y*y);
     }

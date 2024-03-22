@@ -6,21 +6,17 @@ public class JsonTranslate {
     //read response from decisions, convert it into usable info aka not JSON object
 
     public Information translate(JSONObject response) {
-        Information info = new Information(getCost(response), getExtras(response));
-        return info;
+
+        return new Information(getCost(response), getExtras(response));
     }
 
     private  Integer getCost(JSONObject response){
 
-        Integer cost = response.getInt("cost");
-
-        return cost;
-        
+        return response.getInt("cost");
     }
 
     private  JSONObject getExtras(JSONObject response){
-        
-        JSONObject extras = response.getJSONObject("extras");
-        return extras;
+
+        return  response.getJSONObject("extras");
     }
 }

@@ -14,7 +14,6 @@ public class PositionTrack {
     private Coordinate position;
     private ArrayList<String> allCreeks;
     private double distance;
-    private double newDistance;
     private String closestCreek;
     Commands command = new Commands();
 
@@ -40,8 +39,7 @@ public class PositionTrack {
         logger.info("SITE X COORDINATE {}", map.getPointOfInterest("site").getX());
         logger.info("SITE Y COORDINATE {}", map.getPointOfInterest("site").getY());
         for (int i =0; i< allCreeks.size(); i++){
-            newDistance = map.calculateDistance("site", allCreeks.get(i));
-            logger.info("CREEK ID: {}", allCreeks.get(i));
+            double newDistance = map.calculateDistance("site", allCreeks.get(i));
             logger.info("DISTENCE FROM SITE {}", newDistance);
             logger.info("CREEK X COORDINATE {}", map.getPointOfInterest(allCreeks.get(i)).getX());
             logger.info("CREEK Y COORDINATE {}", map.getPointOfInterest(allCreeks.get(i)).getY());
@@ -55,26 +53,20 @@ public class PositionTrack {
     }
 
     public void positionTracker(JSONObject decision){
-        if(decision.similar(command.TurnLeft(currentDirection))){
+        if(decision.similar(command.turnLeft(currentDirection))){
             logger.info("GOING LEFT");
-            logger.info("{}",command.TurnLeft(currentDirection).toString(2));
             position = position.turnLeft(currentDirection);
             currentDirection = currentDirection.goLeft();
 
-        } else if (decision.similar(command.TurnRight(currentDirection))){
+        } else if (decision.similar(command.turnRight(currentDirection))){
             logger.info("GOING RIGHT");
-            logger.info("{}",command.TurnRight(currentDirection).toString(2));
             position = position.turnRight(currentDirection);
             currentDirection = currentDirection.goRight();
 
         }else if (decision.similar(command.fly())){
             logger.info("GOING FORWARD");
-            logger.info("MAP DIRECTION {}", currentDirection.directionToString());
-            logger.info("{}",command.fly().toString(2));
             position = position.forward(currentDirection);
         }
-        //logger.info(" X COORDINATE {}", position.getX());
-        //logger.info(" Y COORDINATE {}", position.getY());
 
     }
 

@@ -37,7 +37,7 @@ public class CommandsTest {
     @Test
     public void turnRightShouldReturnE() {
         Commands commands = new Commands();
-        JSONObject decision = commands.TurnRight(direction);
+        JSONObject decision = commands.turnRight(direction);
 
         assertEquals("heading", decision.getString("action"));
         assertEquals("E", decision.getJSONObject("parameters").getString("direction"));
@@ -46,7 +46,7 @@ public class CommandsTest {
     @Test
     public void turnRightShouldNotReturnN() {
         Commands commands = new Commands();
-        JSONObject decision = commands.TurnRight(direction);
+        JSONObject decision = commands.turnRight(direction);
 
         assertEquals("heading", decision.getString("action"));
         assertNotEquals("N", decision.getJSONObject("parameters").getString("direction"));
@@ -55,7 +55,7 @@ public class CommandsTest {
     @Test
     public void turnLeftShouldReturnW() {
         Commands commands = new Commands();
-        JSONObject decision = commands.TurnLeft(direction);
+        JSONObject decision = commands.turnLeft(direction);
 
         assertEquals("heading", decision.getString("action"));
         assertEquals("W", decision.getJSONObject("parameters").getString("direction"));
@@ -64,7 +64,7 @@ public class CommandsTest {
     @Test
     public void turnLeftShouldNotReturnN() {
         Commands commands = new Commands();
-        JSONObject decision = commands.TurnLeft(direction);
+        JSONObject decision = commands.turnLeft(direction);
 
         assertEquals("heading", decision.getString("action"));
         assertNotEquals("N", decision.getJSONObject("parameters").getString("direction"));

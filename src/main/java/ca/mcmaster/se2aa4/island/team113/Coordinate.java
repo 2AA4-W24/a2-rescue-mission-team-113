@@ -18,79 +18,79 @@ public class Coordinate {
     }
 
     public Coordinate forward(Direction direction) {
-        double new_x = x;
-        double new_y = y;
+        double newX = x;
+        double newY = y;
 
         switch(direction) {
             case N:
-                new_y += 1.0;
+                newY += 1.0;
                 break;
             case E:
-                new_x += 1.0;
+                newX += 1.0;
                 break;
             case S:
-                new_y -= 1.0;
+                newY -= 1.0;
                 break;
             case W:
-                new_x -= 1.0;
+                newX -= 1.0;
                 break;
             default:
                 throw new IllegalStateException("Unknown direction: " + direction);
         }
-        return new Coordinate(new_x, new_y);
+        return new Coordinate(newX, newY);
     }
     public Coordinate turnRight(Direction direction) {
-        double new_x = x;
-        double new_y = y;
+        double newX = x;
+        double newY = y;
 
         switch(direction) {
             case N:
-                new_y += 1.0;
-                new_x += 1.0;
+                newY += 1.0;
+                newX += 1.0;
                 break;
             case E:
-                new_x += 1.0;
-                new_y -= 1.0;
+                newX += 1.0;
+                newY -= 1.0;
                 break;
             case S:
-                new_y -= 1.0;
-                new_x -= 1.0;
+                newY -= 1.0;
+                newX -= 1.0;
                 break;
             case W:
-                new_x -= 1.0;
-                new_y += 1.0;
+                newX -= 1.0;
+                newY += 1.0;
                 break;
             default:
                 throw new IllegalStateException("Unknown direction: " + direction);
         }
-        return new Coordinate(new_x, new_y);
+        return new Coordinate(newX, newY);
     }
 
     public Coordinate turnLeft(Direction direction) {
-        double new_x = x;
-        double new_y = y;
+        double newX = x;
+        double newY = y;
 
         switch(direction) {
             case N:
-                new_y += 1.0;
-                new_x -= 1.0;
+                newY += 1.0;
+                newX -= 1.0;
                 break;
             case E:
-                new_x += 1.0;
-                new_y += 1.0;
+                newX += 1.0;
+                newY += 1.0;
                 break;
             case S:
-                new_y -= 1.0;
-                new_x += 1.0;
+                newY -= 1.0;
+                newX += 1.0;
                 break;
             case W:
-                new_x -= 1.0;
-                new_y -= 1.0;
+                newX -= 1.0;
+                newY -= 1.0;
                 break;
             default:
                 throw new IllegalStateException("Unknown direction: " + direction);
         }
-        return new Coordinate(new_x, new_y);
+        return new Coordinate(newX, newY);
     }
 
 
