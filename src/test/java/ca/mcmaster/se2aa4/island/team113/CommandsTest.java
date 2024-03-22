@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.json.JSONObject;
 
 
-public class CommandsTest {
+class CommandsTest {
 
     private Direction direction;
 
