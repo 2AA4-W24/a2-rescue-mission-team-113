@@ -20,6 +20,7 @@ public class GridSearch implements DecisionMaker{
     private String foundstr = "found";
     private String groundstr = "GROUND";
     private String rangestr = "range";
+    private boolean completed;
 
 
 
@@ -36,11 +37,18 @@ public class GridSearch implements DecisionMaker{
     public void setState(GridSearchStates state) {
         this.currentState = state;
     }
+@Override
+    public Direction getCurrentDirection() {
+        return currentDirection;
+}
+
+@Override
+    public boolean getComleted() {
+        return completed;
+}
 
     public void resultCheck(Information info) {  
-
-        this.info = info;
-        
+        this.info = info; 
     }
 
     public JSONObject makeDecision() {
@@ -229,6 +237,7 @@ private class AtEdge implements GridSearchStates{
         
         if(edgeCounter >= 3){
             decision = decision.put("action", "stop");
+            completed = true;
 
         }else{
             if (flyCount > 0){
@@ -356,6 +365,7 @@ private class BigTurn3 implements GridSearchStates{
         return decision;
     } 
 }
+
 
 
 }

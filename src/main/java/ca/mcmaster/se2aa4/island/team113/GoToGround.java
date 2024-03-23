@@ -32,7 +32,7 @@ public class GoToGround implements DecisionMaker{
         return currentDirection;
     }
 
-    public boolean getonGround(){
+    public boolean getComleted(){
         return onGround;
     }
 
@@ -198,7 +198,8 @@ public class GoToGround implements DecisionMaker{
             }   
         return decision;
        
-    }   
+    }
+   
 }
 
 }
