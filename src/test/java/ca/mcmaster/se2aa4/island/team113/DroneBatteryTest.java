@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DroneBatteryTest {
 
-    private DroneBattery battery;
+     DroneBattery battery;
 
     @BeforeEach
      void initializeBattery() {
@@ -15,37 +15,37 @@ class DroneBatteryTest {
 
     @Test
      void shouldDecreaseBatteryBy10() {
-        battery.loseJuice(10);
+        battery.loseCharge(10);
         assertEquals(90, battery.getCharge());
     }
 
     @Test
      void shouldDecreaseBatteryBy40() {
-        battery.loseJuice(40);
+        battery.loseCharge(40);
         assertEquals(60, battery.getCharge());
     }
     
     @Test
      void shouldBeLow() {
-        battery.loseJuice(80);
+        battery.loseCharge(80);
         assertTrue(battery.lowcheck());
     }
 
     @Test
      void shouldNotBeLow() {
-        battery.loseJuice(70);
+        battery.loseCharge(70);
         assertFalse(battery.lowcheck());
     }
 
     @Test
      void shouldBeLowEdgeCase() {
-        battery.loseJuice(74);
+        battery.loseCharge(74);
         assertTrue(battery.lowcheck());
     }
 
     @Test
      void shouldNotBeLowEdgeCase() {
-        battery.loseJuice(73);
+        battery.loseCharge(73);
         assertFalse(battery.lowcheck());
     }
 

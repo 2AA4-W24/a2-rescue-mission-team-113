@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapOfPointsTest {
 
-    private MapOfPoints map;
+    MapOfPoints map;
 
     @BeforeEach
      void initializeMap() {

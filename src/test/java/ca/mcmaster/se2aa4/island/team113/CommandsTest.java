@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 class CommandsTest {
 
-    private Direction direction;
+     Direction direction;
 
     @BeforeEach
     void initializeDirection() {

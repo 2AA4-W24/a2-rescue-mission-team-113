@@ -23,13 +23,13 @@ public class GoToGround implements DecisionMaker{
         this.map = new PositionTrack(direction);
         this.currentState = new Fly();
     }
+
     public void setState(GoToGroundState state) {
         this.currentState = state;
     }
 
     public Direction getCurrentDirection(){
         return currentDirection;
-
     }
 
     public boolean getonGround(){
@@ -38,8 +38,8 @@ public class GoToGround implements DecisionMaker{
 
     public void resultCheck(Information info){
         this.info = info;
-
     }
+
     public JSONObject makeDecision(){
 
         if(!onGround){
@@ -72,7 +72,6 @@ public class GoToGround implements DecisionMaker{
 
         @Override
         public JSONObject handleNextState(GoToGround context) {
-
             JSONObject extras = info.getExtras();
     
             if (extras.getString(foundstr).equals(outofrangestr)){
@@ -86,8 +85,6 @@ public class GoToGround implements DecisionMaker{
             }
     
             return decision;
-    
-            
         }
         
     }
@@ -144,8 +141,6 @@ public class GoToGround implements DecisionMaker{
             decision = command.fly();
             context.setState(new FlyToGround());
     
-            
-    
             return decision;
         }
         
@@ -161,9 +156,8 @@ public class GoToGround implements DecisionMaker{
     
             return decision;
         }
-        
-        
     }
+
     private class FlyToGround implements GoToGroundState{
 
         @Override
@@ -176,14 +170,12 @@ public class GoToGround implements DecisionMaker{
             }else{
                 decision = command.scan();
                 context.setState(new Scan());
-    
             }
     
             return decision;
         }
-    
-        
     }
+
     private class Scan implements GoToGroundState{
     private final Logger logger = LogManager.getLogger();
 
@@ -206,9 +198,7 @@ public class GoToGround implements DecisionMaker{
             }   
         return decision;
        
-    }
-    
+    }   
 }
-
 
 }

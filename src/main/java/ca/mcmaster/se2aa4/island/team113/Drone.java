@@ -36,9 +36,11 @@ public class Drone {
         }
     }
 
-    public void resultCheck(Information info){ 
+    public void resultCheck(JSONObject response){ 
+        JsonTranslate translator = new JsonTranslate();
+        Information info = translator.translate(response);
         Integer cost = info.getCost();
-        battery.loseJuice(cost);
+        battery.loseCharge(cost);
         logger.info("BATTERY CHECK: {}", battery.getCharge());
         ground.resultCheck(info);
         if (ground.getonGround()){
