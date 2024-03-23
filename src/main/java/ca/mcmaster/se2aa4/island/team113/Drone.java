@@ -43,7 +43,7 @@ public class Drone {
         battery.loseCharge(cost);
         logger.info("BATTERY CHECK: {}", battery.getCharge());
         ground.resultCheck(info);
-        if (ground.getComleted()){
+        if (ground.getCompleted()){
             initializeScanner();
             islandScanner.resultCheck(info);
         }
@@ -62,11 +62,11 @@ public class Drone {
 
         if (battery.lowcheck()){
             decision.put("action", "stop") ;
-        }else if(ground.getComleted()){
+        }else if(ground.getCompleted()){
             logger.info("ON GROUND IS TRUE");
             decision = islandScanner.makeDecision();
 
-        }else if (!ground.getComleted()){
+        }else if (!ground.getCompleted()){
             logger.info("ON GROUND IS FALSE");
              decision = ground.makeDecision();
         }

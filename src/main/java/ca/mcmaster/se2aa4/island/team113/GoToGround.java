@@ -24,22 +24,22 @@ public class GoToGround implements DecisionMaker{
         this.currentState = new Fly();
     }
 
-    public void setState(GoToGroundState state) {
+    private void setState(GoToGroundState state) {
         this.currentState = state;
     }
-
+    @Override
     public Direction getCurrentDirection(){
         return currentDirection;
     }
-
-    public boolean getComleted(){
+    @Override
+    public boolean getCompleted(){
         return onGround;
     }
-
+    @Override
     public void resultCheck(Information info){
         this.info = info;
     }
-
+    @Override
     public JSONObject makeDecision(){
 
         if(!onGround){

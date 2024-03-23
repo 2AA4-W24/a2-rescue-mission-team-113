@@ -34,23 +34,23 @@ public class GridSearch implements DecisionMaker{
 
     }
 
-    public void setState(GridSearchStates state) {
+    private void setState(GridSearchStates state) {
         this.currentState = state;
     }
-@Override
+    @Override
     public Direction getCurrentDirection() {
         return currentDirection;
 }
 
-@Override
-    public boolean getComleted() {
+    @Override
+    public boolean getCompleted() {
         return completed;
 }
-
+    @Override
     public void resultCheck(Information info) {  
         this.info = info; 
     }
-
+    @Override
     public JSONObject makeDecision() {
         
         decision = currentState.handleNextState(this);
