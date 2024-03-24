@@ -1,0 +1,103 @@
+@startuml
+
+class Coordinate {
+    - x: double
+    - y: double
+    + Coordinate(x: double, y: double)
+    + getX(): double
+    + getY(): double
+    + forward(direction: Direction): Coordinate
+    + turnRight(direction: Direction): Coordinate
+    + turnLeft(direction: Direction): Coordinate
+}
+
+enum Direction {
+    N
+    E
+    S
+    W
+    + goRight(): Direction
+    + goLeft(): Direction
+    + directionToString(): String
+    + oppositeDirection(): Direction
+    + {static} stringToDirection(direction: String): Direction
+}
+
+class MapOfPoints {
+    - pointsOfInterest: Map<String, Coordinate>
+    + MapOfPoints()
+    + addPointOfInterest(poi: String, x: double, y: double): void
+    + getPointOfInterest(poi: String): Coordinate
+    + calculateDistance(emergencySite: String, creek: String): double
+}
+
+class PositionTrack {
+    - <<final>> logger: Logger
+    - map: MapOfPoints
+    - currentDirection: Direction
+    - position: Coordinate
+    - allCreeks: ArrayList<String>
+    - distance: double
+    - closestCreek: String
+    command: Commands
+    + PositionTrack(initialDirection: Direction)
+    + getCurrentCoordinate(): Coordinate
+    + getcurrentDirection: Direction
+    + findClosestCreek(): String
+    + positionTracker(decision: JSONObject): void
+    + mapUpdate(info: Information): void
+}
+
+class GoToGround {
+    - currentState: GoToGroundState
+    - currentDirection: Direction
+    - command: Commands
+    decision: JSONObject
+    - flyCount: int
+    - onGround: boolean
+    - info: Information
+    - map: PositionTrack
+    - foundstr: String
+    - outofrangestr: String
+    + GoToGround(direction: Direction)
+    - setState(state: GoToGroundState): void
+    + ^getCurrentDirection(): Direction
+    + ^getCompleted(): boolean
+    + ^resultCheck(info: Information): void
+    + ^makeDecision(): JSONObject
+}
+
+class GridSearch {
+    - <<final>> logger: Logger
+    decision: JSONObject
+    command: Commands
+    - currentDirection: Direction
+    - edgeCounter: int
+    - goingRight: boolean
+    - map: PositionTrack
+    - currentState: GridSearchStates
+    - info: Information
+    - range: int
+    - flyCount: int
+    - foundstr: String
+    - groundstr: String
+    - rangestr: String
+    - completed: boolean
+    + GridSearch(currentDirection: Direction)
+    - setState(state: GridSearchStates): void
+    + ^getCurrentDirection(): Direction
+    + ^getCompleted(): boolean
+    + ^resultCheck(info: Information): void
+    + ^makeDecision(): JSONObject
+}
+
+PositionTrack o-- "1" MapOfPoints
+MapOfPoints "1" o-- "1..*" Coordinate
+PositionTrack <-- Coordinate
+GoToGround o-- "1" PositionTrack
+GridSearch o-- "1" PositionTrack
+GoToGround <-- Direction
+GridSearch <-- Direction
+PositionTrack <-- Direction
+
+@enduml
