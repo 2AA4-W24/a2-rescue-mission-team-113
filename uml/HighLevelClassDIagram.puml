@@ -1,0 +1,152 @@
+@startuml
+
+hide empty members
+
+class Commands {
+    + echo()
+    + turnRight()
+    + turnLeft()
+    + turn()
+    + fly()
+    + scan()
+}
+
+class Coordinate {
+    - x
+    - y
+    + forward()
+    + turnRight()
+    + turnLeft()
+}
+
+interface DecisionMaker {
+    makeDecision()
+    + resultCheck()
+    getCurrentDirection()
+    getCompleted()
+}
+
+enum Direction {
+    N
+    E
+    S
+    W
+    + goRight()
+    + goLeft()
+    + directionToString()
+    + oppositeDirection()
+    + {static} stringToDirection()
+}
+
+class Drone {
+    charge
+    - battery
+    ground
+    islandScanner
+    - initialScanner
+    - initialDirection
+    - mapTrack
+    + getCurrentPosition()
+    - initializeScanner()
+    + resultCheck()
+    + closestCreek()
+    + makeDecision()
+}
+
+class DroneBattery {
+    - charge
+    + loseCharge()
+    + lowcheck()
+}
+
+class Explorer {
+    - drone: Drone
+    + initialize()
+    + takeDecision()
+    + acknowledgeResults()
+    + deliverFinalReport()
+}
+
+class GoToGround implements DecisionMaker {
+    - currentState
+    - currentDirection
+    - command
+    decision
+    - flyCount
+    - onGround
+    - info
+    - map
+    + ^getCurrentDirection()
+    + ^getCompleted()
+    + ^resultCheck()
+    + ^makeDecision()
+}
+
+class GridSearch implements DecisionMaker {
+    decision
+    command
+    - currentDirection
+    - edgeCounter
+    - goingRight
+    - map
+    - currentState
+    - info
+    - range
+    - flyCount
+    - completed
+    + ^getCurrentDirection()
+    + ^getCompleted()
+    + ^resultCheck()
+    + ^makeDecision()
+}
+
+class Information {
+    - cost
+    - extras
+}
+
+class JsonTranslate {
+    + translate()
+    - getCost()
+    - getExtras()
+}
+
+class MapOfPoints {
+    - pointsOfInterest
+    + addPointOfInterest()
+    + getPointOfInterest()
+    + calculateDistance()
+}
+
+class PositionTrack {
+    - map
+    - currentDirection
+    - position
+    - allCreeks
+    - distance
+    - closestCreek
+    command
+    + findClosestCreek()
+    + positionTracker()
+    + mapUpdate()
+}
+
+Explorer o-- Drone
+Drone "1" *-- "0..*" DecisionMaker
+Drone o-- JsonTranslate
+Drone *-- DroneBattery
+GoToGround o-- Commands
+GridSearch o-- Commands
+GoToGround <-- MapOfPoints
+GridSearch <-- MapOfPoints
+MapOfPoints o-- Coordinate
+GoToGround <-- PositionTrack
+GridSearch <-- PositionTrack
+PositionTrack o-- Coordinate
+GoToGround o-- Information
+GridSearch o-- Information
+Drone <-- Direction
+GoToGround <-- Direction
+GridSearch <-- Direction
+
+@enduml
