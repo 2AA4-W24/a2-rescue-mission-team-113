@@ -148,5 +148,6 @@ GridSearch o-- Information
 Drone <-- Direction
 GoToGround <-- Direction
 GridSearch <-- Direction
+Drone <- PositionTrack
 
 @enduml
