@@ -1,0 +1,25 @@
+@startuml
+
+Explorer -> Drone: initialize(s)
+Drone --> Explorer: returnInitializedDrone
+Explorer -> Drone: takeDecision()
+
+alt onGround == false
+    Drone -> GoToGround: makeDecision() 
+    GoToGround --> Explorer: returnDecision
+else onGround == true
+    Drone -> GridSearch: makeDecision()
+    GridSearch --> Explorer: returnDecision
+end
+
+Explorer -> Drone: acknowledgeResults()
+Drone -> PositionTrack: resultCheck()
+PositionTrack -> MapOfPoints: mapUpdate()
+MapOfPoints --> Explorer: resultsAcknowledged
+
+Explorer -> Drone: deliverFinalReport()
+Drone -> PositionTrack: closestCreek()
+PositionTrack -> MapOfPoints: calculateDistance()
+PositionTrack --> Explorer: returnClosestCreek
+
+@enduml
