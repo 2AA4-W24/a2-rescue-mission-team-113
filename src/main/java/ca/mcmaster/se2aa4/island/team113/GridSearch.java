@@ -25,7 +25,6 @@ public class GridSearch implements DecisionMaker{
 
 
     public GridSearch(Direction currentDirection){
-
         this.currentDirection = currentDirection;
         this.edgeCounter = 0;
         this.goingRight=true;
@@ -37,6 +36,27 @@ public class GridSearch implements DecisionMaker{
     private void setState(GridSearchStates state) {
         this.currentState = state;
     }
+
+    public void setStatePublic(GridSearchStates state) { //for testing
+        this.currentState = state;
+    }
+
+    public GridSearchStates getScanState(){ //for testing
+        return new Scan();
+    }
+
+    public GridSearchStates getFlyState(){ //for testing
+        return new Fly();
+    }
+
+    public GridSearchStates getCheckGroundState(){ //for testing
+        return new CheckGround();
+    }
+
+    public GridSearchStates getUturn1State(){ //for testing
+        return new Uturn1();
+    }
+
     @Override
     public Direction getCurrentDirection() {
         return currentDirection;

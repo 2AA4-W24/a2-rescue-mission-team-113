@@ -33,19 +33,19 @@ class DroneBatteryTest {
 
     @Test
      void shouldNotBeLow() {
-        battery.loseCharge(70);
+        battery.loseCharge(50);
         assertFalse(battery.lowcheck());
     }
 
     @Test
      void shouldBeLowEdgeCase() {
-        battery.loseCharge(74);
+        battery.loseCharge(61);
         assertTrue(battery.lowcheck());
     }
 
     @Test
      void shouldNotBeLowEdgeCase() {
-        battery.loseCharge(73);
+        battery.loseCharge(60);
         assertFalse(battery.lowcheck());
     }
 

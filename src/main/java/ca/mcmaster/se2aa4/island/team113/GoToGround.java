@@ -27,6 +27,24 @@ public class GoToGround implements DecisionMaker{
     private void setState(GoToGroundState state) {
         this.currentState = state;
     }
+
+    public void setStatePublic(GoToGroundState state) { //for testing
+        this.currentState = state;
+    }
+
+    public GoToGroundState getEchoFrontState(){ //for testing
+        return new EchoFront();
+    }
+
+    public GoToGroundState getEchoRightState(){ //for testing
+        return new EchoRight();
+    }
+
+    public GoToGroundState getScanState(){ //for testing
+        return new Scan();
+    }
+
+
     @Override
     public Direction getCurrentDirection(){
         return currentDirection;

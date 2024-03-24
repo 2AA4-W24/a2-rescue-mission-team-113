@@ -33,16 +33,24 @@ public class PositionTrack {
     public Direction getcurrentDirection(){
         return currentDirection;
     }
+    public void addCreek(String creekID){ //added for testing
+        allCreeks.add(creekID);
+    }
+
+    public void clearCreeks(){ //added for testing
+        allCreeks.clear();
+    }
+
+    public void addPOI(String key, double x, double y){ //added for testing
+        map.addPointOfInterest(key, x, y);
+    }
 
 
     public String findClosestCreek(){
-        logger.info("SITE X COORDINATE {}", map.getPointOfInterest("site").getX());
-        logger.info("SITE Y COORDINATE {}", map.getPointOfInterest("site").getY());
+
         for (int i =0; i< allCreeks.size(); i++){
             double newDistance = map.calculateDistance("site", allCreeks.get(i));
-            logger.info("DISTENCE FROM SITE {}", newDistance);
-            logger.info("CREEK X COORDINATE {}", map.getPointOfInterest(allCreeks.get(i)).getX());
-            logger.info("CREEK Y COORDINATE {}", map.getPointOfInterest(allCreeks.get(i)).getY());
+
             if (newDistance < distance){
                 distance = newDistance;
                 closestCreek = allCreeks.get(i);
@@ -91,8 +99,5 @@ public class PositionTrack {
         }
 
     }
-
-
-
     
 }
