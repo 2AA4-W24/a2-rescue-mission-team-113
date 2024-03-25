@@ -137,17 +137,16 @@ Drone o-- JsonTranslate
 Drone *-- DroneBattery
 GoToGround o-- Commands
 GridSearch o-- Commands
-GoToGround <-- MapOfPoints
-GridSearch <-- MapOfPoints
 MapOfPoints o-- Coordinate
 GoToGround <-- PositionTrack
 GridSearch <-- PositionTrack
-PositionTrack o-- Coordinate
+PositionTrack <-- Coordinate
 GoToGround o-- Information
 GridSearch o-- Information
 Drone <-- Direction
 GoToGround <-- Direction
 GridSearch <-- Direction
-Drone <- PositionTrack
-
+Drone o- PositionTrack
+PositionTrack o-- MapOfPoints
+Coordinate <-- Direction
 @enduml
