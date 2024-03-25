@@ -31,19 +31,6 @@
   </properties>
 
   <dependencies>
-  <dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-core</artifactId>
-    <version>3.3.3</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>4.13</version>
-    <scope>test</scope>
-</dependency>
-
     <!-- To read arguments from command line-->
     <dependency>
       <groupId>commons-cli</groupId>

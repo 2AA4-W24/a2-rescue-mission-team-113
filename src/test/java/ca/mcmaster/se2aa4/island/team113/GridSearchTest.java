@@ -2,7 +2,6 @@ package ca.mcmaster.se2aa4.island.team113;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -47,21 +46,21 @@ class GridSearchTest {
     }
 
     @Test
-void checkGroundState_groundFound_transitionsToFlyRange() {
+    void checkGroundState_groundFound_transitionsToFlyRange() {
 
-    gridSearch.setStatePublic(gridSearch.getCheckGroundState());
+        gridSearch.setStatePublic(gridSearch.getCheckGroundState());
 
-    JSONObject response = new JSONObject();
-    response.put("found", "GROUND");
-    response.put("range", 5);
-    Information info = new Information(12, response);
+        JSONObject response = new JSONObject();
+        response.put("found", "GROUND");
+        response.put("range", 5);
+        Information info = new Information(12, response);
 
-    gridSearch.resultCheck(info);
+        gridSearch.resultCheck(info);
 
-    JSONObject decision = gridSearch.makeDecision();
+        JSONObject decision = gridSearch.makeDecision();
 
-    assertTrue(commands.fly().similar(decision));
-}
+        assertTrue(commands.fly().similar(decision));
+    }
 
 @Test
 void uturn1State_transitionsToUturn2() {
