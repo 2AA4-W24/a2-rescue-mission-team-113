@@ -1,4 +1,4 @@
-@startuml
+@startuml SequenceDiagram
 
 Explorer -> Drone: initialize(s)
 Drone --> Explorer: returnInitializedDrone
@@ -20,6 +20,7 @@ MapOfPoints --> Explorer: resultsAcknowledged
 Explorer -> Drone: deliverFinalReport()
 Drone -> PositionTrack: closestCreek()
 PositionTrack -> MapOfPoints: calculateDistance()
+MapOfPoints --> PositionTrack: returnDistance
 PositionTrack --> Explorer: returnClosestCreek
 
 @enduml

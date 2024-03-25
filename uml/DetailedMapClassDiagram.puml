@@ -1,4 +1,4 @@
-@startuml
+@startuml DetailedMapClassDiagram
 
 class Coordinate {
     - x: double
@@ -99,5 +99,6 @@ GridSearch o-- "1" PositionTrack
 GoToGround <-- Direction
 GridSearch <-- Direction
 PositionTrack <-- Direction
+Coordinate <-- Direction
 
 @enduml
